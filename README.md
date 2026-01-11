@@ -17,11 +17,22 @@
 
 ## 📖 Overview
 
-**Lyra Tool Discovery** is an AI-powered automation tool that solves the painful problem of manually discovering, evaluating, and integrating MCP (Model Context Protocol) servers into your ecosystem. Instead of spending hours searching GitHub, reading READMEs, and figuring out the right integration approach, Lyra does it for you in seconds.
+**Lyra Tool Discovery** is an AI-powered automation tool designed specifically for the **crypto, DeFi, blockchain, and web3 ecosystem**. It solves the painful problem of manually discovering, evaluating, and integrating MCP (Model Context Protocol) servers into your crypto-focused applications. Instead of spending hours searching GitHub, reading READMEs, and figuring out the right integration approach, Lyra does it for you in seconds.
 
-The tool crawls multiple sources—currently GitHub and npm, with more coming—to find MCP servers, APIs, and plugins. It then leverages state-of-the-art AI (OpenAI GPT-4o or Anthropic Claude) to analyze each discovered tool's code, documentation, and structure. Based on this analysis, Lyra automatically determines which of 8 plugin templates best fits the tool and generates ready-to-use plugin configurations.
+The tool crawls multiple sources—GitHub and npm—to find crypto-related MCP servers, APIs, and plugins. It filters results to focus exclusively on **blockchain, DeFi, web3, and cryptocurrency tooling** (including Ethereum, Solana, Bitcoin, wallets, tokens, NFTs, DEXs, staking, bridges, and more). Lyra then leverages state-of-the-art AI (OpenAI GPT-4o or Anthropic Claude) to analyze each discovered tool and automatically generates ready-to-use plugin configurations.
 
-Lyra is built for **MCP ecosystem developers** who need to rapidly onboard new tools, **plugin marketplace operators** like plugin.delivery who curate and distribute plugins, and **automation engineers** building CI/CD pipelines for tool discovery and deployment. Whether you're building a local development environment or a production marketplace, Lyra accelerates your workflow.
+### 🪙 Crypto Focus
+
+Lyra is optimized for discovering tools related to:
+
+- **Blockchain Networks** — Ethereum, Solana, Bitcoin, Layer 2s, bridges
+- **DeFi Protocols** — DEXs, lending, staking, yield farming, liquidity
+- **Web3 Infrastructure** — Wallets, RPC providers, indexers, oracles
+- **Token Standards** — ERC-20, ERC-721, NFTs, token swaps
+- **Smart Contracts** — Development, auditing, deployment tools
+- **On-chain Data** — Analytics, explorers, transaction tracking
+
+Lyra is built for **crypto MCP ecosystem developers** who need to rapidly onboard new tools, **plugin marketplace operators** like plugin.delivery who curate crypto plugins, and **automation engineers** building CI/CD pipelines for DeFi tool discovery and deployment.
 
 This tool is a critical piece of the discovery-to-deployment pipeline: `lyra-tool-discovery` → `github-to-mcp` → `plugin.delivery` → **SperaxOS users**. By automating the discovery and classification phase, Lyra enables fully automated plugin onboarding with minimal human intervention.
 
@@ -71,7 +82,13 @@ This tool is a critical piece of the discovery-to-deployment pipeline: `lyra-too
 </td>
 <td width="50%">
 
-### 🖥️ CLI & Programmatic API
+### 🪙 Crypto Filtering
+
+- **Keywords** — crypto, defi, blockchain, web3
+- **Networks** — ethereum, solana, bitcoin
+- **Protocols** — wallet, token, nft, dex, staking
+- **Age Filter** — Only repos updated within 12 months
+- **Smart Validation** — AI validates crypto relevance
 
 - Full-featured command-line interface
 - Node.js/TypeScript SDK for automation
@@ -84,6 +101,17 @@ This tool is a critical piece of the discovery-to-deployment pipeline: `lyra-too
 <tr>
 <td width="50%">
 
+### 🖥️ CLI & Programmatic API
+
+- Full-featured command-line interface
+- Node.js/TypeScript SDK for automation
+- JSON output for CI/CD pipelines
+- Dry-run mode for testing
+- Progress indicators and rich output
+
+</td>
+<td width="50%">
+
 ### 🧪 Testing & Validation
 
 - `--dry-run` mode for safe testing
@@ -92,6 +120,8 @@ This tool is a critical piece of the discovery-to-deployment pipeline: `lyra-too
 - Debug logging for troubleshooting
 
 </td>
+</tr>
+<tr>
 <td width="50%">
 
 ### 📤 Flexible Output
@@ -104,6 +134,44 @@ This tool is a critical piece of the discovery-to-deployment pipeline: `lyra-too
 </td>
 </tr>
 </table>
+
+---
+
+## 🪙 Crypto Discovery Keywords
+
+Lyra automatically filters discovery results to focus on crypto/DeFi/blockchain/web3 tools. The following keywords are used for both search queries and result validation:
+
+<details>
+<summary><strong>View all supported keywords</strong></summary>
+
+| Category | Keywords |
+|----------|----------|
+| **General** | crypto, cryptocurrency, defi, blockchain, web3 |
+| **Networks** | ethereum, eth, solana, sol, bitcoin, btc, chain |
+| **Tokens** | token, erc20, erc721, nft |
+| **DeFi** | dex, swap, staking, yield, lending, liquidity, vault, bridge |
+| **Infrastructure** | wallet, protocol, onchain, on-chain, smart contract |
+| **Libraries** | web3.js, ethers, viem, wagmi, rainbowkit |
+| **Protocols** | uniswap, aave, compound |
+
+</details>
+
+Tools that don't match any of these keywords are automatically filtered out, ensuring you only discover crypto-relevant MCP servers.
+
+### Age Filtering
+
+By default, Lyra only discovers tools that have been updated within the **last 12 months**. This ensures you're finding actively maintained projects. Use `--max-age` to adjust:
+
+```bash
+# Only tools updated in the last 6 months
+lyra-discover discover --max-age 6
+
+# Only tools updated in the last 3 months (bleeding edge)
+lyra-discover discover --max-age 3
+
+# Tools up to 24 months old
+lyra-discover discover --max-age 24
+```
 
 ---
 
@@ -191,8 +259,9 @@ lyra-discover discover [options]
 
 | Option | Alias | Description | Default |
 |--------|-------|-------------|---------|
-| `--sources` | `-s` | Comma-separated sources: `github`, `npm` | `github,npm` |
+| `--sources` | `-s` | Comma-separated sources: `github`, `npm`, `awesome-list` | `github,npm` |
 | `--limit` | `-l` | Maximum tools to discover per source | `5` |
+| `--max-age` | `-a` | Maximum age in months for discovered repos | `12` |
 | `--dry-run` | `-d` | List tools without AI analysis | `false` |
 | `--provider` | `-p` | AI provider to use | Auto-detect |
 | `--model` | `-m` | AI model to use | Provider default |
@@ -200,8 +269,11 @@ lyra-discover discover [options]
 **Examples:**
 
 ```bash
-# Discover from GitHub only, limit 10 results
+# Discover crypto MCP tools from GitHub only, limit 10 results
 lyra-discover discover --sources github --limit 10
+
+# Find tools updated in the last 6 months only
+lyra-discover discover --max-age 6 --limit 20
 
 # Dry run to preview what would be analyzed
 lyra-discover discover --dry-run --sources npm --limit 20
@@ -216,30 +288,32 @@ lyra-discover discover --provider openai --model gpt-4o
 **Example Output:**
 
 ```
-🔍 Discovering tools from: github, npm
+🔍 Discovering crypto/DeFi/web3 tools from: github, npm
+📅 Max age: 12 months
   Found 5 from github
   Found 3 from npm
 
 📊 Total discovered: 8 tools
-🔌 MCP-compatible: 6 tools
+🪙 Crypto-related: 6 tools
+🔌 MCP-compatible: 5 tools
 
-🤖 Analyzing: mcp-server-github...
+🤖 Analyzing: mcp-server-ethereum...
   Template: mcp-stdio
   Reasoning: Has MCP SDK dependency and bin entry for local execution
 
-✅ Analyzed 6 tools
+✅ Analyzed 5 tools
 
 📦 Generated Configs:
 
---- mcp-server-github ---
+--- mcp-server-ethereum ---
 Template: mcp-stdio
 Config: {
-  "identifier": "mcp-server-github",
+  "identifier": "mcp-server-ethereum",
   "customParams": {
     "mcp": {
       "type": "stdio",
       "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-github"]
+      "args": ["-y", "mcp-server-ethereum"]
     }
   }
 }
@@ -923,7 +997,7 @@ SOFTWARE.
 
 ## 🙏 Credits
 
-- Built with ❤️ for the [Model Context Protocol](https://modelcontextprotocol.io) ecosystem
+- made by nich [Model Context Protocol](https://modelcontextprotocol.io) ecosystem
 - Powered by [OpenAI](https://openai.com) and [Anthropic](https://anthropic.com)
 - Inspired by the need to automate plugin discovery for SperaxOS
 
@@ -933,6 +1007,5 @@ SOFTWARE.
 
 **[⬆ Back to Top](#-lyra-tool-discovery)**
 
-Made with 🔮 by the Lyra Team
 
 </div>
