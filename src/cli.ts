@@ -14,9 +14,10 @@ program
 
 program
   .command('discover')
-  .description('Search for MCP tools and APIs across sources')
+  .description('Search for crypto/DeFi/blockchain/web3 MCP tools across sources')
   .option('-s, --sources <sources>', 'Comma-separated sources: github,npm', 'github,npm')
   .option('-l, --limit <number>', 'Max tools to discover', '5')
+  .option('-a, --max-age <months>', 'Max age in months (default: 12)', '12')
   .option('-d, --dry-run', 'List discovered tools without AI analysis')
   .option('-p, --provider <provider>', 'AI provider: openai or anthropic')
   .option('-m, --model <model>', 'AI model to use (e.g., gpt-4o, claude-sonnet-4-20250514)')
@@ -28,10 +29,12 @@ program
     
     const sources = options.sources.split(',') as DiscoverySource[];
     const limit = parseInt(options.limit, 10);
+    const maxAgeMonths = parseInt(options.maxAge, 10);
     
     const results = await discovery.discover({
       sources,
       limit,
+      maxAgeMonths,
       dryRun: options.dryRun
     });
     

@@ -1,15 +1,17 @@
-# MCP Tool Discovery Agent
-# Runs hourly to discover new MCP tools
+# Crypto MCP Tool Discovery Agent
+# Runs hourly to discover new crypto/DeFi/blockchain/web3 MCP tools
 #
 # Discovers tools from:
-# - GitHub repositories
-# - npm packages  
-# - Awesome MCP lists
-# - Hacker News, Reddit
+# - GitHub repositories (crypto, defi, blockchain, web3 focused)
+# - npm packages (crypto, defi, blockchain, web3 focused)
+#
+# Filters:
+# - Only crypto/DeFi/blockchain/web3 related tools
+# - Only tools updated within the last 12 months
 #
 # Creates PRs with discovered tools in this repo
 
-name: 🔍 Discover MCP Tools
+name: 🔍 Discover Crypto MCP Tools
 
 on:
   # Run every hour
@@ -22,11 +24,15 @@ on:
       sources:
         description: 'Sources (github,npm,awesome-list)'
         required: false
-        default: 'github,npm,awesome-list'
+        default: 'github,npm'
       dry_run:
         description: 'Dry run (no PRs)'
         type: boolean
         default: false
+      max_age_months:
+        description: 'Max age in months (default: 12)'
+        required: false
+        default: '12'
 
 env:
   NODE_VERSION: '20.x'

@@ -43,14 +43,31 @@ export class GitHubSource {
   }
   
   /**
-   * Search GitHub for MCP servers
+   * Search GitHub for MCP servers (crypto/DeFi/blockchain/web3 focused)
    */
-  async searchMCPServers(limit = 10): Promise<DiscoveredTool[]> {
+  async searchMCPServers(limit = 10, maxAgeMonths = 12): Promise<DiscoveredTool[]> {
+    // Calculate date filter (default: 1 year ago)
+    const cutoffDate = new Date();
+    cutoffDate.setMonth(cutoffDate.getMonth() - maxAgeMonths);
+    const dateFilter = `pushed:>${cutoffDate.toISOString().split('T')[0]}`;
+    
+    // Crypto/DeFi/blockchain/web3 focused MCP tool queries
+    const cryptoTerms = ['crypto', 'defi', 'blockchain', 'web3', 'ethereum', 'solana', 'bitcoin', 'wallet', 'token', 'nft', 'dex', 'swap', 'staking', 'yield', 'bridge', 'chain'];
+    
     const queries = [
-      'mcp server in:name,description,readme',
-      'modelcontextprotocol in:name,description',
-      '@modelcontextprotocol in:readme',
-      'mcp-server in:name'
+      // MCP servers with crypto focus
+      ...cryptoTerms.map(term => `mcp ${term} in:name,description,readme ${dateFilter}`),
+      ...cryptoTerms.map(term => `modelcontextprotocol ${term} in:name,description ${dateFilter}`),
+      // Crypto MCP specific
+      `mcp-server crypto in:name ${dateFilter}`,
+      `mcp-server defi in:name ${dateFilter}`,
+      `mcp-server blockchain in:name ${dateFilter}`,
+      `mcp-server web3 in:name ${dateFilter}`,
+      // Topic-based searches
+      `topic:mcp topic:crypto ${dateFilter}`,
+      `topic:mcp topic:defi ${dateFilter}`,
+      `topic:mcp topic:blockchain ${dateFilter}`,
+      `topic:mcp topic:web3 ${dateFilter}`
     ];
     
     const tools: DiscoveredTool[] = [];

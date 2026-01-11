@@ -14,7 +14,19 @@ export interface DiscoveryOptions {
   limit?: number;
   dryRun?: boolean;
   outputDir?: string;
+  maxAgeMonths?: number;
 }
+
+// Crypto/DeFi/blockchain/web3 keywords for filtering
+const CRYPTO_KEYWORDS = [
+  'crypto', 'cryptocurrency', 'defi', 'blockchain', 'web3',
+  'ethereum', 'eth', 'solana', 'sol', 'bitcoin', 'btc',
+  'wallet', 'token', 'nft', 'dex', 'swap', 'staking',
+  'yield', 'bridge', 'chain', 'smart contract', 'erc20',
+  'erc721', 'uniswap', 'aave', 'compound', 'lending',
+  'liquidity', 'vault', 'protocol', 'onchain', 'on-chain',
+  'web3.js', 'ethers', 'viem', 'wagmi', 'rainbowkit'
+];
 
 export class ToolDiscovery {
   private github: GitHubSource;
@@ -28,23 +40,25 @@ export class ToolDiscovery {
   }
   
   /**
-   * Discover tools from configured sources
+   * Discover crypto/DeFi/blockchain/web3 tools from configured sources
    */
   async discover(options: DiscoveryOptions = {}): Promise<DiscoveryResult[]> {
     const {
       sources = ['github', 'npm'],
       limit = 10,
-      dryRun = false
+      dryRun = false,
+      maxAgeMonths = 12
     } = options;
     
-    console.log(`🔍 Discovering tools from: ${sources.join(', ')}`);
+    console.log(`🔍 Discovering crypto/DeFi/web3 tools from: ${sources.join(', ')}`);
+    console.log(`📅 Max age: ${maxAgeMonths} months`);
     
     const tools: DiscoveredTool[] = [];
     
     // Collect from each source
     for (const source of sources) {
       try {
-        const discovered = await this.discoverFromSource(source, limit);
+        const discovered = await this.discoverFromSource(source, limit, maxAgeMonths);
         console.log(`  Found ${discovered.length} from ${source}`);
         tools.push(...discovered);
       } catch (error) {
@@ -58,8 +72,12 @@ export class ToolDiscovery {
       return [];
     }
     
-    // Filter to only tools with MCP support for now
-    const mcpTools = tools.filter(t => t.hasMCPSupport);
+    // Filter to only crypto-related tools
+    const cryptoTools = tools.filter(t => this.isCryptoRelated(t));
+    console.log(`🪙 Crypto-related: ${cryptoTools.length} tools`);
+    
+    // Filter to only tools with MCP support
+    const mcpTools = cryptoTools.filter(t => t.hasMCPSupport);
     console.log(`🔌 MCP-compatible: ${mcpTools.length} tools`);
     
     // Analyze each tool with AI
@@ -104,17 +122,31 @@ export class ToolDiscovery {
   
   private async discoverFromSource(
     source: DiscoverySource, 
-    limit: number
+    limit: number,
+    maxAgeMonths: number
   ): Promise<DiscoveredTool[]> {
     switch (source) {
       case 'github':
-        return this.github.searchMCPServers(limit);
+        return this.github.searchMCPServers(limit, maxAgeMonths);
       case 'npm':
         return this.npm.searchMCPServers(limit);
       default:
         console.warn(`Source "${source}" not yet implemented`);
         return [];
     }
+  }
+  
+  /**
+   * Check if a tool is crypto/DeFi/blockchain/web3 related
+   */
+  private isCryptoRelated(tool: DiscoveredTool): boolean {
+    const searchText = [
+      tool.name,
+      tool.description,
+      tool.readme?.slice(0, 5000) || ''
+    ].join(' ').toLowerCase();
+    
+    return CRYPTO_KEYWORDS.some(keyword => searchText.includes(keyword.toLowerCase()));
   }
   
   /**

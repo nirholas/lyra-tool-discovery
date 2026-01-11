@@ -37,13 +37,23 @@ interface NpmPackage {
 
 export class NpmSource {
   /**
-   * Search npm for MCP servers
+   * Search npm for MCP servers (crypto/DeFi/blockchain/web3 focused)
    */
   async searchMCPServers(limit = 10): Promise<DiscoveredTool[]> {
+    // Crypto/DeFi/blockchain/web3 focused MCP package queries
+    const cryptoTerms = ['crypto', 'defi', 'blockchain', 'web3', 'ethereum', 'solana', 'bitcoin', 'wallet', 'token', 'nft', 'dex', 'swap', 'staking'];
+    
     const queries = [
-      'mcp server',
-      '@modelcontextprotocol',
-      'mcp-server'
+      // MCP packages with crypto focus
+      ...cryptoTerms.map(term => `mcp ${term}`),
+      ...cryptoTerms.map(term => `mcp-server ${term}`),
+      // Direct crypto MCP searches
+      'mcp crypto',
+      'mcp defi',
+      'mcp blockchain',
+      'mcp web3',
+      '@modelcontextprotocol crypto',
+      '@modelcontextprotocol defi'
     ];
     
     const tools: DiscoveredTool[] = [];
