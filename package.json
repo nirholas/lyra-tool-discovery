@@ -1,9 +1,11 @@
 {
   "name": "lyra-tool-discovery",
   "version": "0.1.0",
-  "description": "Discover MCP tools and APIs, generate SperaxOS plugin configs",
+  "private": true,
+  "description": "AI-powered MCP tool discovery - find, analyze, and generate plugin configs for Model Context Protocol servers",
   "type": "module",
   "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "bin": {
     "lyra-discover": "./dist/cli.js"
   },
@@ -11,7 +13,36 @@
     "build": "tsup",
     "dev": "tsx src/cli.ts",
     "discover": "tsx src/cli.ts discover",
-    "discover:dry": "tsx src/cli.ts discover --dry-run"
+    "discover:dry": "tsx src/cli.ts discover --dry-run",
+    "typecheck": "tsc --noEmit",
+    "example:basic": "tsx examples/basic-discovery.ts",
+    "example:repo": "tsx examples/analyze-single-repo.ts",
+    "example:npm": "tsx examples/analyze-npm-package.ts",
+    "example:ai": "tsx examples/custom-ai-provider.ts",
+    "example:batch": "tsx examples/batch-processing.ts",
+    "example:filter": "tsx examples/filter-by-template.ts",
+    "example:json": "tsx examples/json-output.ts",
+    "example:dry": "tsx examples/dry-run-mode.ts",
+    "example:search": "tsx examples/custom-search-queries.ts",
+    "example:pipeline": "tsx examples/pipeline-integration.ts",
+    "example:errors": "tsx examples/11-error-handling.ts",
+    "example:action": "tsx examples/12-github-action-script.ts",
+    "dashboard": "pnpm --dir dashboard dev",
+    "dashboard:build": "pnpm --dir dashboard build",
+    "dashboard:start": "pnpm --dir dashboard start"
+  },
+  "author": "nirholas",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nirholas/lyra-tool-discovery.git"
+  },
+  "bugs": {
+    "url": "https://github.com/nirholas/lyra-tool-discovery/issues"
+  },
+  "homepage": "https://github.com/nirholas/lyra-tool-discovery#readme",
+  "engines": {
+    "node": ">=18.0.0"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.52.0",
