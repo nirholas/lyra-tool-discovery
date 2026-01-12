@@ -5,3 +5,7 @@ dist/
 .env.local
 .DS_Store
 coverage/
+
+# Discovery data (keep .gitkeep)
+data/*
+!data/.gitkeep
