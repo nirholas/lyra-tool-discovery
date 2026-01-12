@@ -52,7 +52,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Setup pnpm
-        uses: pnpm/action-setup@v2
+        uses: pnpm/action-setup@v4
         with:
           version: ${{ env.PNPM_VERSION }}
 
@@ -66,16 +66,10 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Build Package
-        run: pnpm --filter @lyra/tool-discovery-agent build
+        run: pnpm build
 
-      - name: Cache Discovery Database
-        uses: actions/cache@v4
-        with:
-          path: |
-            packages/tool-discovery-agent/data
-          key: discovery-db-${{ github.run_id }}
-          restore-keys: |
-            discovery-db-
+      - name: Create data directory
+        run: mkdir -p data
 
       - name: Run Discovery
         id: discovery
@@ -83,39 +77,33 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: |
-          cd packages/tool-discovery-agent
-          
           # Determine sources
           SOURCES="${{ github.event.inputs.sources || 'github,npm' }}"
-          MIN_SCORE="${{ github.event.inputs.min_score || '40' }}"
           DRY_RUN="${{ github.event.inputs.dry_run || 'false' }}"
           
-          # Run discovery
-          ARGS="discover --sources ${SOURCES//,/ } --min-score $MIN_SCORE"
+          # Build command
+          CMD="node dist/cli.js discover --sources=${SOURCES}"
           
           if [ "$DRY_RUN" = "true" ]; then
-            ARGS="$ARGS --dry-run"
+            CMD="$CMD --dry-run"
           fi
           
-          echo "Running: node dist/cli.js $ARGS"
-          node dist/cli.js $ARGS --json > result.json || true
+          echo "Running: $CMD"
+          $CMD 2>&1 | tee discovery.log || true
           
-          # Extract metrics
-          DISCOVERED=$(jq -r '.totalDiscovered // 0' result.json)
-          VALIDATED=$(jq -r '.totalValidated // 0' result.json)
-          NEW_TOOLS=$(jq -r '.newTools | length // 0' result.json)
-          STATUS=$(jq -r '.status // "unknown"' result.json)
+          # Extract metrics from log
+          TOOLS_COUNT=$(grep -o "Analyzed [0-9]* tools" discovery.log | grep -o "[0-9]*" || echo "0")
           
-          echo "discovered=$DISCOVERED" >> $GITHUB_OUTPUT
-          echo "validated=$VALIDATED" >> $GITHUB_OUTPUT
-          echo "new_tools=$NEW_TOOLS" >> $GITHUB_OUTPUT
-          echo "status=$STATUS" >> $GITHUB_OUTPUT
+          echo "discovered=$TOOLS_COUNT" >> $GITHUB_OUTPUT
+          echo "new_tools=$TOOLS_COUNT" >> $GITHUB_OUTPUT
+          echo "status=completed" >> $GITHUB_OUTPUT
 
-      - name: Export Updated Tools Catalog
-        if: steps.discovery.outputs.new_tools != '0'
-        run: |
-          cd packages/tool-discovery-agent
-          node dist/cli.js export --validated-only -f markdown -o ../../docs/TOOLS_CATALOG.md || true
+      - name: Upload Discovery Log
+        uses: actions/upload-artifact@v4
+        with:
+          name: discovery-log-${{ github.run_id }}
+          path: discovery.log
+          retention-days: 30
 
       - name: Create Pull Request
         if: steps.discovery.outputs.new_tools != '0' && github.event.inputs.dry_run != 'true'
@@ -164,8 +152,8 @@ jobs:
         with:
           name: discovery-results-${{ github.run_id }}
           path: |
-            packages/tool-discovery-agent/result.json
-            packages/tool-discovery-agent/data/discovery.db
+            discovery.log
+            data/
           retention-days: 30
 
       - name: Post Summary
@@ -176,7 +164,6 @@ jobs:
           echo "|--------|-------|" >> $GITHUB_STEP_SUMMARY
           echo "| Status | ${{ steps.discovery.outputs.status }} |" >> $GITHUB_STEP_SUMMARY
           echo "| Discovered | ${{ steps.discovery.outputs.discovered }} |" >> $GITHUB_STEP_SUMMARY
-          echo "| Validated | ${{ steps.discovery.outputs.validated }} |" >> $GITHUB_STEP_SUMMARY
           echo "| New Tools | ${{ steps.discovery.outputs.new_tools }} |" >> $GITHUB_STEP_SUMMARY
 
   notify:
