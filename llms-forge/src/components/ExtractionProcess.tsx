@@ -1,0 +1,244 @@
+'use client'
+
+import { useState, useEffect, useRef } from 'react'
+import { motion } from 'framer-motion'
+import { 
+  Loader2, Check, Globe, FileSearch, Brain, Layers, Sparkles, Bot
+} from 'lucide-react'
+
+const STAGES = [
+  { id: 'connect', label: 'Connecting to documentation source', icon: Globe, duration: 800 },
+  { id: 'discover', label: 'Discovering documentation structure', icon: FileSearch, duration: 1200 },
+  { id: 'analyze', label: 'Running Forge-1 content analysis', icon: Brain, duration: 2000 },
+  { id: 'extract', label: 'Extracting documentation content', icon: Layers, duration: 1800 },
+  { id: 'process', label: 'Processing with ensemble models', icon: Sparkles, duration: 1500 },
+  { id: 'optimize', label: 'Optimizing for agent consumption', icon: Bot, duration: 1000 },
+]
+
+const TERMINAL_LOGS = [
+  '> Initializing Forge-1 extraction pipeline...',
+  '> Connecting to documentation endpoint',
+  '> Analyzing site structure and content type',
+  '> Running ensemble model inference (1,600+ models)',
+  '> Extracting semantic documentation nodes',
+  '> Processing markdown and code snippets',
+  '> Applying intelligent chunking strategies',
+  '> Optimizing context boundaries',
+  '> Generating agent-ready metadata',
+  '> Creating MCP server configuration',
+  '> Validating output integrity',
+  '> Extraction complete ✓',
+]
+
+export default function ExtractionProcess() {
+  const [currentStage, setCurrentStage] = useState(0)
+  const [terminalLines, setTerminalLines] = useState<string[]>([])
+  const [metrics, setMetrics] = useState({
+    tokens: 0,
+    chunks: 0,
+    nodes: 0,
+    requests: 0,
+  })
+  const terminalRef = useRef<HTMLDivElement>(null)
+
+  // Progress through stages
+  useEffect(() => {
+    if (currentStage < STAGES.length) {
+      const timer = setTimeout(() => {
+        setCurrentStage(prev => prev + 1)
+      }, STAGES[currentStage].duration)
+      return () => clearTimeout(timer)
+    }
+  }, [currentStage])
+
+  // Add terminal lines
+  useEffect(() => {
+    const lineIndex = Math.min(
+      Math.floor((currentStage / STAGES.length) * TERMINAL_LOGS.length),
+      TERMINAL_LOGS.length - 1
+    )
+    
+    const interval = setInterval(() => {
+      setTerminalLines(prev => {
+        if (prev.length < Math.min(lineIndex + 3, TERMINAL_LOGS.length)) {
+          return [...prev, TERMINAL_LOGS[prev.length]]
+        }
+        return prev
+      })
+    }, 150)
+
+    return () => clearInterval(interval)
+  }, [currentStage])
+
+  // Update metrics
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setMetrics(prev => ({
+        tokens: Math.min(prev.tokens + Math.floor(Math.random() * 5000), 847293),
+        chunks: Math.min(prev.chunks + Math.floor(Math.random() * 10), 492),
+        nodes: Math.min(prev.nodes + Math.floor(Math.random() * 20), 1847),
+        requests: Math.min(prev.requests + Math.floor(Math.random() * 5), 156),
+      }))
+    }, 100)
+
+    return () => clearInterval(interval)
+  }, [])
+
+  // Auto-scroll terminal
+  useEffect(() => {
+    if (terminalRef.current) {
+      terminalRef.current.scrollTop = terminalRef.current.scrollHeight
+    }
+  }, [terminalLines])
+
+  const progress = (currentStage / STAGES.length) * 100
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, scale: 0.95 }}
+      animate={{ opacity: 1, scale: 1 }}
+      exit={{ opacity: 0, scale: 0.95 }}
+      className="space-y-6"
+    >
+      {/* Main progress card */}
+      <div className="rounded-2xl border border-gray-800 bg-dark-800/80 backdrop-blur-xl overflow-hidden">
+        {/* Header */}
+        <div className="px-6 py-4 border-b border-gray-800/50 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="relative">
+              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-cyber-green/20 to-cyber-blue/20 flex items-center justify-center">
+                <Loader2 className="w-5 h-5 text-cyber-green animate-spin" />
+              </div>
+            </div>
+            <div>
+              <h2 className="font-semibold text-white">Extracting Documentation</h2>
+              <p className="text-xs text-gray-500">Processing with Forge-1</p>
+            </div>
+          </div>
+          <div className="text-right">
+            <div className="text-2xl font-bold text-white font-mono">
+              {progress.toFixed(0)}%
+            </div>
+            <div className="text-xs text-gray-500">Complete</div>
+          </div>
+        </div>
+
+        <div className="p-6">
+          {/* Progress bar */}
+          <div className="relative h-2 bg-dark-900 rounded-full overflow-hidden mb-6">
+            <motion.div
+              className="absolute inset-y-0 left-0 bg-gradient-to-r from-cyber-green to-cyber-blue"
+              initial={{ width: 0 }}
+              animate={{ width: `${progress}%` }}
+              transition={{ duration: 0.3 }}
+            />
+          </div>
+
+          {/* Stages */}
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+            {STAGES.map((stage, index) => {
+              const isComplete = index < currentStage
+              const isCurrent = index === currentStage
+              const Icon = stage.icon
+
+              return (
+                <motion.div
+                  key={stage.id}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.05 }}
+                  className={`flex items-center gap-2 p-3 rounded-lg border transition-all ${
+                    isComplete
+                      ? 'bg-cyber-green/5 border-cyber-green/20'
+                      : isCurrent
+                      ? 'bg-cyber-blue/5 border-cyber-blue/30'
+                      : 'bg-dark-700/30 border-gray-800'
+                  }`}
+                >
+                  <div className={`w-5 h-5 rounded flex items-center justify-center flex-shrink-0 ${
+                    isComplete
+                      ? 'bg-cyber-green/20 text-cyber-green'
+                      : isCurrent
+                      ? 'bg-cyber-blue/20 text-cyber-blue'
+                      : 'bg-dark-600 text-gray-500'
+                  }`}>
+                    {isComplete ? (
+                      <Check className="w-3 h-3" />
+                    ) : isCurrent ? (
+                      <Loader2 className="w-3 h-3 animate-spin" />
+                    ) : (
+                      <Icon className="w-3 h-3" />
+                    )}
+                  </div>
+                  <span className={`text-xs font-medium truncate ${
+                    isComplete
+                      ? 'text-gray-300'
+                      : isCurrent
+                      ? 'text-white'
+                      : 'text-gray-500'
+                  }`}>
+                </span>
+              </motion.div>
+            )
+          })}
+        </div>
+        </div>
+      </div>
+
+      {/* Metrics and Terminal */}
+      <div className="grid md:grid-cols-2 gap-6">
+        {/* Live metrics */}
+        <div className="rounded-xl border border-gray-800 p-6 bg-dark-800/80 backdrop-blur-xl">
+          <h3 className="text-sm font-semibold text-gray-400 mb-4">
+            Live Metrics
+          </h3>
+          <div className="grid grid-cols-2 gap-4">
+            {[
+              { label: 'Tokens', value: metrics.tokens.toLocaleString() },
+              { label: 'Chunks', value: metrics.chunks.toLocaleString() },
+              { label: 'Nodes', value: metrics.nodes.toLocaleString() },
+              { label: 'Models', value: metrics.requests.toLocaleString() },
+            ].map((metric) => (
+              <div key={metric.label} className="p-3 bg-dark-900/50 rounded-lg">
+                <div className="text-2xl font-bold font-mono text-cyber-green">
+                  {metric.value}
+                </div>
+                <div className="text-xs text-gray-500">{metric.label}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Terminal */}
+        <div className="rounded-xl border border-gray-800 overflow-hidden bg-dark-900/80 backdrop-blur-xl">
+          <div className="flex items-center gap-2 px-4 py-2 bg-dark-700/50 border-b border-gray-800">
+            <div className="flex gap-1.5">
+              <div className="w-3 h-3 rounded-full bg-red-500/80" />
+              <div className="w-3 h-3 rounded-full bg-yellow-500/80" />
+              <div className="w-3 h-3 rounded-full bg-green-500/80" />
+            </div>
+            <span className="text-xs text-gray-500 font-mono ml-2">forge-1.log</span>
+          </div>
+          <div 
+            ref={terminalRef}
+            className="terminal h-48 overflow-y-auto p-4"
+          >
+            {terminalLines.map((line, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, x: -10 }}
+                animate={{ opacity: 1, x: 0 }}
+                className={`terminal-line ${
+                  line.includes('✓') ? 'text-cyber-green' : 'text-gray-400'
+                }`}
+              >
+                {line}
+              </motion.div>
+            ))}
+            <span className="inline-block w-2 h-4 bg-cyber-green animate-blink" />
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  )
+}
