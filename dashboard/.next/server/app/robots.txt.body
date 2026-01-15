@@ -1,6 +1,0 @@
-User-Agent: *
-Allow: /
-Disallow: /api/
-Disallow: /private/
-
-Sitemap: https://lyra.dev/sitemap.xml
