@@ -10,25 +10,21 @@ const FEATURES = [
     icon: Search,
     title: 'Smart Discovery',
     description: 'Automatically finds llms.txt or llms-full.txt on any documentation site.',
-    color: 'cyber-green',
   },
   {
     icon: Scissors,
     title: 'Organized Sections',
     description: 'Splits documentation into individual markdown files by section headers.',
-    color: 'cyber-blue',
   },
   {
     icon: Bot,
     title: 'Agent-Ready Output',
     description: 'Includes AGENT-GUIDE.md with instructions for AI assistants like Claude and ChatGPT.',
-    color: 'cyber-purple',
   },
   {
     icon: Archive,
     title: 'One-Click Download',
     description: 'Download individual files or everything bundled as a convenient ZIP archive.',
-    color: 'cyber-pink',
   },
 ]
 
@@ -40,10 +36,10 @@ export default function Features() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-cyber-purple/10 to-cyber-pink/10 border border-cyber-purple/20 mb-6"
+          className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-neutral-800 mb-6"
         >
-          <FileText className="w-4 h-4 text-cyber-purple" />
-          <span className="text-sm font-medium text-cyber-purple">FEATURES</span>
+          <FileText className="w-4 h-4 text-white" />
+          <span className="text-sm font-medium text-neutral-400">FEATURES</span>
         </motion.div>
         
         <motion.h2
@@ -61,7 +57,7 @@ export default function Features() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: 0.2 }}
-          className="text-xl text-gray-400 max-w-2xl mx-auto"
+          className="text-xl text-neutral-400 max-w-2xl mx-auto"
         >
           Everything you need to get documentation ready for AI agents
         </motion.p>
@@ -75,13 +71,13 @@ export default function Features() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: index * 0.1 }}
-            className="group rounded-xl border border-gray-800 p-6 bg-dark-800/50 backdrop-blur-sm hover:border-gray-700 transition-all"
+            className="group rounded-xl border border-neutral-800 p-6 bg-neutral-900/50 backdrop-blur-sm hover:border-neutral-700 transition-all card-lift"
           >
-            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-cyber-green/10 to-cyber-blue/10 border border-gray-800 flex items-center justify-center mb-4 group-hover:border-cyber-green/30 transition-colors">
-              <feature.icon className="w-6 h-6 text-cyber-green" />
+            <div className="w-12 h-12 rounded-xl bg-white/5 border border-neutral-800 flex items-center justify-center mb-4 group-hover:border-neutral-600 transition-colors">
+              <feature.icon className="w-6 h-6 text-white" />
             </div>
             <h3 className="text-lg font-semibold text-white mb-2">{feature.title}</h3>
-            <p className="text-sm text-gray-400 leading-relaxed">{feature.description}</p>
+            <p className="text-sm text-neutral-400 leading-relaxed">{feature.description}</p>
           </motion.div>
         ))}
       </div>

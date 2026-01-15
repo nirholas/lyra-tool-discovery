@@ -36,23 +36,23 @@ export default function UrlInput({ onSubmit }: UrlInputProps) {
     >
       {/* Glow effect */}
       <div 
-        className={`absolute -inset-4 bg-gradient-to-r from-cyber-green/10 via-cyber-blue/10 to-cyber-purple/10 rounded-3xl blur-2xl transition-opacity duration-500 ${isFocused ? 'opacity-100' : 'opacity-0'}`}
+        className={`absolute -inset-4 bg-white/5 rounded-3xl blur-2xl transition-opacity duration-500 ${isFocused ? 'opacity-100' : 'opacity-0'}`}
       />
       
-      <div className="relative rounded-2xl border border-gray-800 bg-dark-800/80 backdrop-blur-xl overflow-hidden">
+      <div className="relative rounded-2xl border border-neutral-800 bg-neutral-900/80 backdrop-blur-xl overflow-hidden">
         {/* Header */}
-        <div className="px-6 py-4 border-b border-gray-800/50 flex items-center justify-between">
+        <div className="px-6 py-4 border-b border-neutral-800 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-cyber-green/20 to-cyber-blue/20 flex items-center justify-center">
-              <Globe className="w-4 h-4 text-cyber-green" />
+            <div className="w-8 h-8 rounded-lg bg-white/5 border border-neutral-800 flex items-center justify-center">
+              <Globe className="w-4 h-4 text-white" />
             </div>
             <div>
               <h2 className="font-semibold text-white">Extract Documentation</h2>
-              <p className="text-xs text-gray-500">Enter any documentation URL to get started</p>
+              <p className="text-xs text-neutral-500">Enter any documentation URL to get started</p>
             </div>
           </div>
-          <div className="flex items-center gap-2 text-xs text-gray-500">
-            <FileText className="w-3.5 h-3.5 text-cyber-green" />
+          <div className="flex items-center gap-2 text-xs text-neutral-500">
+            <FileText className="w-3.5 h-3.5 text-white" />
             <span>Looks for llms.txt</span>
           </div>
         </div>
@@ -62,7 +62,7 @@ export default function UrlInput({ onSubmit }: UrlInputProps) {
           <form onSubmit={handleSubmit}>
             <div className="relative">
               <div className="absolute left-4 top-1/2 -translate-y-1/2">
-                <Search className="w-5 h-5 text-gray-500" />
+                <Search className="w-5 h-5 text-neutral-500" />
               </div>
               <input
                 type="text"
@@ -71,12 +71,12 @@ export default function UrlInput({ onSubmit }: UrlInputProps) {
                 onFocus={() => setIsFocused(true)}
                 onBlur={() => setIsFocused(false)}
                 placeholder="https://docs.example.com"
-                className="w-full pl-12 pr-32 py-4 bg-dark-900/80 border border-gray-800 rounded-xl text-white placeholder:text-gray-600 focus:outline-none focus:border-cyber-green/50 focus:ring-1 focus:ring-cyber-green/20 transition-all"
+                className="w-full pl-12 pr-32 py-4 bg-black border border-neutral-800 rounded-xl text-white placeholder:text-neutral-600 focus:outline-none focus:border-neutral-600 focus:ring-1 focus:ring-white/10 transition-all"
               />
               <button
                 type="submit"
                 disabled={!url.trim()}
-                className="absolute right-2 top-1/2 -translate-y-1/2 px-5 py-2.5 bg-white rounded-lg font-medium text-dark-900 flex items-center gap-2 hover:bg-gray-100 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                className="absolute right-2 top-1/2 -translate-y-1/2 px-5 py-2.5 bg-white rounded-lg font-medium text-black flex items-center gap-2 hover:bg-neutral-200 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 Extract
                 <ArrowRight className="w-4 h-4" />
@@ -86,12 +86,12 @@ export default function UrlInput({ onSubmit }: UrlInputProps) {
 
           {/* Example sites */}
           <div className="mt-4 flex flex-wrap items-center gap-2">
-            <span className="text-xs text-gray-500">Try:</span>
+            <span className="text-xs text-neutral-500">Try:</span>
             {exampleSites.map((site) => (
               <button
                 key={site.name}
                 onClick={() => setUrl(site.url)}
-                className="px-3 py-1.5 text-xs bg-dark-700/50 border border-gray-800 rounded-lg hover:border-gray-700 hover:bg-dark-600/50 transition-all text-gray-400 hover:text-white"
+                className="px-3 py-1.5 text-xs bg-white/5 border border-neutral-800 rounded-lg hover:border-neutral-700 hover:bg-white/10 transition-all text-neutral-400 hover:text-white"
               >
                 {site.name}
               </button>
@@ -100,18 +100,18 @@ export default function UrlInput({ onSubmit }: UrlInputProps) {
         </div>
 
         {/* Footer info */}
-        <div className="px-6 py-3 bg-dark-900/50 border-t border-gray-800/50 flex items-center justify-between text-xs text-gray-500">
+        <div className="px-6 py-3 bg-black/50 border-t border-neutral-800 flex items-center justify-between text-xs text-neutral-500">
           <div className="flex items-center gap-4">
             <span className="flex items-center gap-1.5">
-              <Check className="w-3.5 h-3.5 text-cyber-green" />
+              <Check className="w-3.5 h-3.5 text-white" />
               Auto-detects llms.txt
             </span>
             <span className="flex items-center gap-1.5">
-              <Check className="w-3.5 h-3.5 text-cyber-green" />
+              <Check className="w-3.5 h-3.5 text-white" />
               Organized markdown output
             </span>
             <span className="flex items-center gap-1.5 hidden sm:flex">
-              <Check className="w-3.5 h-3.5 text-cyber-green" />
+              <Check className="w-3.5 h-3.5 text-white" />
               Agent-ready format
             </span>
           </div>

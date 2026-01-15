@@ -9,32 +9,26 @@ edit_uri: edit/main/llms-forge/docs-site/docs/
 
 theme:
   name: material
-  favicon: assets/favicon.svg
-  logo: assets/logo.svg
-  font:
-    text: Inter
-    code: JetBrains Mono
   palette:
     # Light mode
     - media: "(prefers-color-scheme: light)"
       scheme: default
-      primary: white
-      accent: black
+      primary: black
+      accent: grey
       toggle:
-        icon: material/weather-night
+        icon: material/brightness-7
         name: Switch to dark mode
     # Dark mode
     - media: "(prefers-color-scheme: dark)"
       scheme: slate
       primary: black
-      accent: white
+      accent: grey
       toggle:
-        icon: material/weather-sunny
+        icon: material/brightness-4
         name: Switch to light mode
   
   features:
     - navigation.instant
-    - navigation.instant.progress
     - navigation.tracking
     - navigation.tabs
     - navigation.tabs.sticky
@@ -42,19 +36,17 @@ theme:
     - navigation.expand
     - navigation.indexes
     - navigation.top
-    - navigation.footer
     - search.suggest
     - search.highlight
-    - search.share
     - content.tabs.link
     - content.code.copy
     - content.code.annotate
-    - header.autohide
-    - toc.follow
   
   icon:
     repo: fontawesome/brands/github
-    logo: material/file-document-multiple
+  
+  logo: assets/logo.svg
+  favicon: assets/logo.svg
 
 plugins:
   - search
@@ -86,30 +78,20 @@ markdown_extensions:
       toc_depth: 3
 
 nav:
-  - index.md
-  - Getting Started:
-    - getting-started.md
-  - Documentation:
-    - how-it-works.md
-    - api-reference.md
-  - Tools:
-    - mcp-server.md
-  - Deploy:
-    - self-hosting.md
-  - FAQ: faq.md
+  - Home: index.md
+  - Overview: overview.md
+  - llms.txt Standard: llms-txt-standard.md
+  - Examples: examples.md
+  - MCP Server:
+    - Installation: mcp-server/installation.md
+    - Tools: mcp-server/tools.md
+  - API Reference: api-reference.md
+  - Self Hosting: self-hosting.md
 
 extra:
   social:
-    - icon: fontawesome/brands/x-twitter
-      link: https://x.com/nichxbt
-      name: nich on X
     - icon: fontawesome/brands/github
-      link: https://github.com/nirholas
-      name: nich on GitHub
-  generator: false
-  analytics:
-    provider: google
-    property: G-XXXXXXXXXX  # Replace with your Google Analytics ID
+      link: https://github.com/nirholas/lyra-tool-discovery
 
 extra_css:
   - stylesheets/extra.css

@@ -1,115 +1,92 @@
 # API Reference
 
-LLMs Forge exposes a simple API for programmatic access.
+REST API for LLMs Forge.
 
 ---
 
-## Extract Endpoint
+## Base URL
 
-### `POST /api/extract`
-
-Extracts documentation from a given URL.
-
-=== "Request"
-
-    ```json
-    {
-      "url": "https://docs.example.com"
-    }
-    ```
-
-=== "Response"
-
-    ```json
-    {
-      "url": "https://docs.example.com",
-      "sourceUrl": "https://docs.example.com/llms-full.txt",
-      "rawContent": "...",
-      "documents": [
-        {
-          "filename": "getting-started.md",
-          "title": "Getting Started",
-          "content": "...",
-          "tokens": 1234
-        }
-      ],
-      "fullDocument": {
-        "filename": "llms-full.md",
-        "title": "Complete Documentation",
-        "content": "...",
-        "tokens": 5678
-      },
-      "agentGuide": {
-        "filename": "AGENT-GUIDE.md",
-        "title": "Agent Guide",
-        "content": "...",
-        "tokens": 456
-      },
-      "stats": {
-        "totalTokens": 7368,
-        "documentCount": 5,
-        "processingTime": 1234
-      }
-    }
-    ```
-
-!!! example "Example with curl"
-
-    ```bash
-    curl -X POST https://llms-forge.vercel.app/api/extract \
-      -H "Content-Type: application/json" \
-      -d '{"url": "https://docs.anthropic.com"}'
-    ```
+```
+https://llms-forge.vercel.app/api
+```
 
 ---
 
-## Download Endpoint
+## Endpoints
 
-### `POST /api/download`
+### Extract Documentation
 
-Generates a ZIP file containing all documents.
+```
+POST /extract
+```
 
-=== "Request"
+**Request Body**
 
-    ```json
+```json
+{
+  "url": "docs.anthropic.com"
+}
+```
+
+**Response**
+
+```json
+{
+  "success": true,
+  "source": "llms-full.txt",
+  "documents": [
     {
-      "documents": [...],
-      "fullDocument": {...},
-      "agentGuide": {...},
-      "siteName": "example-docs"
+      "name": "getting-started.md",
+      "title": "Getting Started",
+      "tokens": 1250
     }
-    ```
-
-=== "Response"
-
-    Binary ZIP file with `Content-Type: application/zip`.
+  ],
+  "stats": {
+    "totalDocuments": 12,
+    "totalTokens": 45000,
+    "processingTimeMs": 234
+  }
+}
+```
 
 ---
 
-## Error Handling
+### Fetch Raw Content
 
-Errors return appropriate HTTP status codes:
+```
+GET /fetch?url={url}&full={boolean}
+```
 
-| Status Code | Description |
-|-------------|-------------|
-| `400` | Invalid request (missing URL) |
-| `404` | No llms.txt found at the given URL |
-| `422` | Content found but could not be parsed |
-| `500` | Server error during extraction |
+**Parameters**
 
-!!! warning "Error Response Format"
+| Name | Type | Default | Description |
+|------|------|---------|-------------|
+| `url` | string | required | Documentation site URL |
+| `full` | boolean | `true` | Fetch llms-full.txt |
 
-    ```json
-    {
-      "error": "Description of what went wrong"
-    }
-    ```
+**Response**
+
+```json
+{
+  "success": true,
+  "content": "# Documentation\n\n...",
+  "source": "llms-full.txt"
+}
+```
 
 ---
 
-## Rate Limits
+## Error Responses
 
-!!! info "No Rate Limits"
-    The public API currently has no rate limits, but please be respectful with usage.
+```json
+{
+  "success": false,
+  "error": "No llms.txt found at the specified URL"
+}
+```
 
-The public API has reasonable rate limits to prevent abuse. For high-volume usage, consider self-hosting.
+| Status | Description |
+|--------|-------------|
+| 400 | Invalid request parameters |
+| 404 | No llms.txt found |
+| 500 | Server error |

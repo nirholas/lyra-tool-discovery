@@ -17,7 +17,7 @@ export default function Stats() {
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        className="rounded-2xl border border-gray-800 p-8 bg-dark-800/50 backdrop-blur-xl"
+        className="rounded-2xl border border-neutral-800 p-8 bg-neutral-900/50 backdrop-blur-xl"
       >
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
           {HIGHLIGHTS.map((item, index) => (
@@ -29,10 +29,10 @@ export default function Stats() {
               transition={{ delay: index * 0.1 }}
               className="text-center"
             >
-              <div className="w-12 h-12 mx-auto rounded-xl bg-gradient-to-br from-cyber-green/10 to-cyber-blue/10 border border-gray-800 flex items-center justify-center mb-3">
-                <item.icon className="w-6 h-6 text-cyber-green" />
+              <div className="w-12 h-12 mx-auto rounded-xl bg-white/5 border border-neutral-800 flex items-center justify-center mb-3">
+                <item.icon className="w-6 h-6 text-white" />
               </div>
-              <div className="text-sm text-gray-400">{item.label}</div>
+              <div className="text-sm text-neutral-400">{item.label}</div>
             </motion.div>
           ))}
         </div>

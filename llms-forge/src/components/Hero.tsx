@@ -10,11 +10,11 @@ export default function Hero() {
       <motion.div
         initial={{ opacity: 0, scale: 0.8 }}
         animate={{ opacity: 1, scale: 1 }}
-        className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-cyber-green/10 to-cyber-blue/10 border border-cyber-green/20 mb-8"
+        className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 mb-8"
       >
-        <Github className="w-4 h-4 text-cyber-green" />
-        <span className="text-sm font-medium text-gray-300">
-          Free & <span className="text-cyber-green font-semibold">Open Source</span>
+        <Github className="w-4 h-4 text-white/60" />
+        <span className="text-sm font-medium text-neutral-400">
+          Free & <span className="text-white font-semibold">Open Source</span>
         </span>
       </motion.div>
 
@@ -26,7 +26,7 @@ export default function Hero() {
         className="text-5xl md:text-7xl font-bold mb-6 leading-[1.1] tracking-tight"
       >
         <span className="block text-white">Extract Documentation</span>
-        <span className="block bg-gradient-to-r from-cyber-green via-cyber-blue to-cyber-purple bg-clip-text text-transparent">
+        <span className="block text-neutral-500">
           for AI Agents
         </span>
       </motion.h1>
@@ -36,7 +36,7 @@ export default function Hero() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2 }}
-        className="text-xl text-gray-400 max-w-2xl mx-auto mb-10 leading-relaxed"
+        className="text-xl text-neutral-400 max-w-2xl mx-auto mb-10 leading-relaxed"
       >
         Instantly fetch and organize llms.txt files into downloadable markdown documents ready for Claude, ChatGPT, and other AI assistants.
       </motion.p>
@@ -50,14 +50,14 @@ export default function Hero() {
       >
         <a 
           href="#extract"
-          className="px-8 py-4 bg-white rounded-xl font-semibold text-dark-900 flex items-center gap-2 hover:bg-gray-100 transition-all shadow-lg shadow-white/10"
+          className="px-8 py-4 bg-white rounded-xl font-semibold text-black flex items-center gap-2 hover:bg-neutral-200 transition-all shadow-lg shadow-white/5"
         >
           Start Extracting
           <ArrowRight className="w-5 h-5" />
         </a>
         <a
           href="#how-it-works"
-          className="px-8 py-4 bg-dark-700/50 border border-gray-700 rounded-xl font-semibold text-white hover:border-gray-600 hover:bg-dark-600/50 transition-all"
+          className="px-8 py-4 bg-transparent border border-neutral-700 rounded-xl font-semibold text-white hover:border-neutral-500 hover:bg-white/5 transition-all"
         >
           How It Works
         </a>
@@ -76,12 +76,12 @@ export default function Hero() {
           { icon: Download, label: 'One-click download', desc: 'Individual or ZIP bundle' },
         ].map((item, i) => (
           <div key={i} className="flex items-center gap-3 text-left">
-            <div className="w-10 h-10 rounded-lg bg-dark-700/50 border border-gray-800 flex items-center justify-center">
-              <item.icon className="w-5 h-5 text-cyber-green" />
+            <div className="w-10 h-10 rounded-lg bg-white/5 border border-neutral-800 flex items-center justify-center">
+              <item.icon className="w-5 h-5 text-white" />
             </div>
             <div>
               <div className="font-medium text-white">{item.label}</div>
-              <div className="text-gray-500 text-xs">{item.desc}</div>
+              <div className="text-neutral-500 text-xs">{item.desc}</div>
             </div>
           </div>
         ))}

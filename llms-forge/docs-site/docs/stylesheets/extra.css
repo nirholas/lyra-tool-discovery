@@ -1,4 +1,31 @@
-/* Custom styles for LLMs Forge documentation */
+/* LLMs Forge - Neutral Black & White Theme */
+
+:root {
+  --forge-primary: #000000;
+  --forge-secondary: #333333;
+  --forge-accent: #666666;
+  --forge-dark: #111111;
+}
+
+/* Override MkDocs Material primary color for neutral theme */
+[data-md-color-scheme="default"] {
+  --md-primary-fg-color: #000000;
+  --md-primary-fg-color--light: #333333;
+  --md-primary-fg-color--dark: #000000;
+  --md-accent-fg-color: #555555;
+}
+
+[data-md-color-scheme="slate"] {
+  --md-primary-fg-color: #ffffff;
+  --md-primary-fg-color--light: #e0e0e0;
+  --md-primary-fg-color--dark: #ffffff;
+  --md-accent-fg-color: #aaaaaa;
+}
+
+/* Header - solid black */
+.md-header {
+  background: #000000;
+}
 
 /* Hero section on home page */
 .md-typeset .hero {
@@ -50,30 +77,6 @@
   font-weight: 500;
 }
 
-/* Version badge */
-.md-typeset .version-badge {
-  display: inline-block;
-  padding: 0.2em 0.6em;
-  font-size: 0.75em;
-  font-weight: 600;
-  border-radius: 1em;
-  background-color: var(--md-primary-fg-color);
-  color: white;
-}
-
-/* Status indicators */
-.md-typeset .status-ok {
-  color: #4caf50;
-}
-
-.md-typeset .status-warning {
-  color: #ff9800;
-}
-
-.md-typeset .status-error {
-  color: #f44336;
-}
-
 /* Feature list with icons */
 .md-typeset .feature-list {
   list-style: none;
@@ -108,11 +111,6 @@
 /* Navigation improvements */
 .md-nav__link--active {
   font-weight: 600;
-}
-
-/* Footer customization */
-.md-footer-meta {
-  background-color: var(--md-footer-bg-color);
 }
 
 /* Mobile responsiveness */

@@ -103,16 +103,16 @@ export default function Home() {
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.9 }}
-                  className="rounded-xl border border-red-500/20 bg-dark-800/80 p-8 text-center"
+                  className="rounded-xl border border-neutral-700 bg-neutral-900/80 backdrop-blur-xl p-8 text-center"
                 >
-                  <div className="flex items-center justify-center gap-2 text-red-400 text-xl mb-4">
+                  <div className="flex items-center justify-center gap-2 text-neutral-300 text-xl mb-4">
                     <AlertTriangle className="w-6 h-6" />
                     Extraction Failed
                   </div>
-                  <p className="text-gray-400 mb-6">{error}</p>
+                  <p className="text-neutral-400 mb-6">{error}</p>
                   <button
                     onClick={handleReset}
-                    className="px-6 py-3 bg-white rounded-lg font-semibold text-dark-900 hover:bg-gray-100 transition-colors"
+                    className="px-6 py-3 bg-white rounded-lg font-semibold text-black hover:bg-neutral-200 transition-colors"
                   >
                     Try Again
                   </button>

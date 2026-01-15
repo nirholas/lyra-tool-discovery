@@ -6,18 +6,29 @@ const config: Config = {
     './src/components/**/*.{js,ts,jsx,tsx,mdx}',
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
+  darkMode: 'class',
   theme: {
     extend: {
       colors: {
-        'cyber-green': '#00ff88',
-        'cyber-blue': '#00d4ff',
-        'cyber-purple': '#b347ff',
-        'cyber-pink': '#ff47ab',
+        // Professional black/white palette
+        'primary': '#000000',
+        'primary-foreground': '#ffffff',
+        'muted': '#737373',
+        'muted-foreground': '#a3a3a3',
+        'border': '#262626',
+        'border-light': '#e5e5e5',
+        'card': '#0a0a0a',
+        'card-light': '#ffffff',
+        // Legacy colors (keeping for compatibility)
+        'cyber-green': '#000000',
+        'cyber-blue': '#404040',
+        'cyber-purple': '#525252',
+        'cyber-pink': '#737373',
         'dark': {
-          900: '#0a0a0f',
-          800: '#12121a',
-          700: '#1a1a25',
-          600: '#252530',
+          900: '#000000',
+          800: '#0a0a0a',
+          700: '#171717',
+          600: '#262626',
         }
       },
       animation: {
@@ -61,8 +72,8 @@ const config: Config = {
         },
       },
       backgroundImage: {
-        'grid-pattern': 'linear-gradient(to right, rgba(0, 255, 136, 0.1) 1px, transparent 1px), linear-gradient(to bottom, rgba(0, 255, 136, 0.1) 1px, transparent 1px)',
-        'cyber-gradient': 'linear-gradient(135deg, #00ff88 0%, #00d4ff 50%, #b347ff 100%)',
+        'grid-pattern': 'linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px)',
+        'grid-pattern-light': 'linear-gradient(to right, rgba(0, 0, 0, 0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(0, 0, 0, 0.03) 1px, transparent 1px)',
       },
     },
   },

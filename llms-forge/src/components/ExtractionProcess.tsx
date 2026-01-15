@@ -99,33 +99,33 @@ export default function ExtractionProcess() {
       className="space-y-6"
     >
       {/* Main progress card */}
-      <div className="rounded-2xl border border-gray-800 bg-dark-800/80 backdrop-blur-xl overflow-hidden">
+      <div className="rounded-2xl border border-neutral-800 bg-neutral-900/80 backdrop-blur-xl overflow-hidden">
         {/* Header */}
-        <div className="px-6 py-4 border-b border-gray-800/50 flex items-center justify-between">
+        <div className="px-6 py-4 border-b border-neutral-800 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="relative">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-cyber-green/20 to-cyber-blue/20 flex items-center justify-center">
-                <Loader2 className="w-5 h-5 text-cyber-green animate-spin" />
+              <div className="w-10 h-10 rounded-xl bg-white/5 border border-neutral-800 flex items-center justify-center">
+                <Loader2 className="w-5 h-5 text-white animate-spin" />
               </div>
             </div>
             <div>
               <h2 className="font-semibold text-white">Extracting Documentation</h2>
-              <p className="text-xs text-gray-500">Fetching and parsing llms.txt</p>
+              <p className="text-xs text-neutral-500">Fetching and parsing llms.txt</p>
             </div>
           </div>
           <div className="text-right">
             <div className="text-2xl font-bold text-white font-mono">
               {progress.toFixed(0)}%
             </div>
-            <div className="text-xs text-gray-500">Complete</div>
+            <div className="text-xs text-neutral-500">Complete</div>
           </div>
         </div>
 
         <div className="p-6">
           {/* Progress bar */}
-          <div className="relative h-2 bg-dark-900 rounded-full overflow-hidden mb-6">
+          <div className="relative h-2 bg-black rounded-full overflow-hidden mb-6">
             <motion.div
-              className="absolute inset-y-0 left-0 bg-gradient-to-r from-cyber-green to-cyber-blue"
+              className="absolute inset-y-0 left-0 bg-white"
               initial={{ width: 0 }}
               animate={{ width: `${progress}%` }}
               transition={{ duration: 0.3 }}
@@ -147,18 +147,18 @@ export default function ExtractionProcess() {
                   transition={{ delay: index * 0.05 }}
                   className={`flex items-center gap-2 p-3 rounded-lg border transition-all ${
                     isComplete
-                      ? 'bg-cyber-green/5 border-cyber-green/20'
+                      ? 'bg-white/5 border-neutral-700'
                       : isCurrent
-                      ? 'bg-cyber-blue/5 border-cyber-blue/30'
-                      : 'bg-dark-700/30 border-gray-800'
+                      ? 'bg-white/10 border-neutral-600'
+                      : 'bg-neutral-900/50 border-neutral-800'
                   }`}
                 >
                   <div className={`w-5 h-5 rounded flex items-center justify-center flex-shrink-0 ${
                     isComplete
-                      ? 'bg-cyber-green/20 text-cyber-green'
+                      ? 'bg-white text-black'
                       : isCurrent
-                      ? 'bg-cyber-blue/20 text-cyber-blue'
-                      : 'bg-dark-600 text-gray-500'
+                      ? 'bg-white/20 text-white'
+                      : 'bg-neutral-800 text-neutral-500'
                   }`}>
                     {isComplete ? (
                       <Check className="w-3 h-3" />
@@ -170,10 +170,10 @@ export default function ExtractionProcess() {
                   </div>
                   <span className={`text-xs font-medium truncate ${
                     isComplete
-                      ? 'text-gray-300'
+                      ? 'text-neutral-300'
                       : isCurrent
                       ? 'text-white'
-                      : 'text-gray-500'
+                      : 'text-neutral-500'
                   }`}>
                 </span>
               </motion.div>
@@ -186,8 +186,8 @@ export default function ExtractionProcess() {
       {/* Metrics and Terminal */}
       <div className="grid md:grid-cols-2 gap-6">
         {/* Live metrics */}
-        <div className="rounded-xl border border-gray-800 p-6 bg-dark-800/80 backdrop-blur-xl">
-          <h3 className="text-sm font-semibold text-gray-400 mb-4">
+        <div className="rounded-xl border border-neutral-800 p-6 bg-neutral-900/80 backdrop-blur-xl">
+          <h3 className="text-sm font-semibold text-neutral-400 mb-4">
             Live Metrics
           </h3>
           <div className="grid grid-cols-2 gap-4">
@@ -197,25 +197,25 @@ export default function ExtractionProcess() {
               { label: 'Nodes', value: metrics.nodes.toLocaleString() },
               { label: 'Models', value: metrics.requests.toLocaleString() },
             ].map((metric) => (
-              <div key={metric.label} className="p-3 bg-dark-900/50 rounded-lg">
-                <div className="text-2xl font-bold font-mono text-cyber-green">
+              <div key={metric.label} className="p-3 bg-black/50 rounded-lg border border-neutral-800">
+                <div className="text-2xl font-bold font-mono text-white">
                   {metric.value}
                 </div>
-                <div className="text-xs text-gray-500">{metric.label}</div>
+                <div className="text-xs text-neutral-500">{metric.label}</div>
               </div>
             ))}
           </div>
         </div>
 
         {/* Terminal */}
-        <div className="rounded-xl border border-gray-800 overflow-hidden bg-dark-900/80 backdrop-blur-xl">
-          <div className="flex items-center gap-2 px-4 py-2 bg-dark-700/50 border-b border-gray-800">
+        <div className="rounded-xl border border-neutral-800 overflow-hidden bg-black/80 backdrop-blur-xl">
+          <div className="flex items-center gap-2 px-4 py-2 bg-neutral-900 border-b border-neutral-800">
             <div className="flex gap-1.5">
-              <div className="w-3 h-3 rounded-full bg-red-500/80" />
-              <div className="w-3 h-3 rounded-full bg-yellow-500/80" />
-              <div className="w-3 h-3 rounded-full bg-green-500/80" />
+              <div className="w-3 h-3 rounded-full bg-neutral-600" />
+              <div className="w-3 h-3 rounded-full bg-neutral-600" />
+              <div className="w-3 h-3 rounded-full bg-neutral-600" />
             </div>
-            <span className="text-xs text-gray-500 font-mono ml-2">extraction.log</span>
+            <span className="text-xs text-neutral-500 font-mono ml-2">extraction.log</span>
           </div>
           <div 
             ref={terminalRef}
@@ -227,13 +227,13 @@ export default function ExtractionProcess() {
                 initial={{ opacity: 0, x: -10 }}
                 animate={{ opacity: 1, x: 0 }}
                 className={`terminal-line ${
-                  line.includes('complete') ? 'text-cyber-green' : 'text-gray-400'
+                  line.includes('complete') ? 'text-white' : 'text-neutral-400'
                 }`}
               >
                 {line}
               </motion.div>
             ))}
-            <span className="inline-block w-2 h-4 bg-cyber-green animate-blink" />
+            <span className="inline-block w-2 h-4 bg-white animate-pulse" />
           </div>
         </div>
       </div>
