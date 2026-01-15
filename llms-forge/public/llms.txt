@@ -1,21 +1,21 @@
-# LLMs Forge
+# llm.energy
 
 > Extract documentation for AI agents from any site with llms.txt support
 
 ## Overview
 
-LLMs Forge is a free, open-source tool that fetches documentation from websites supporting the llms.txt standard and organizes it into downloadable markdown files optimized for AI assistants.
+llm.energy is a free, open-source tool that fetches documentation from websites supporting the llms.txt standard and organizes it into downloadable markdown files optimized for AI assistants.
 
 ## Quick Start
 
-1. Visit [llms-forge.vercel.app](https://llms-forge.vercel.app)
+1. Visit [llm.energy](https://llm.energy)
 2. Paste any documentation URL
 3. Click Extract
 4. Download organized markdown files
 
 ## Features
 
-- **Smart Discovery**: Automatically finds llms.txt or llms-full.txt
+- **Smart Extraction**: Fetches llms.txt or llms-full.txt
 - **Document Parsing**: Splits content into organized markdown sections
 - **Agent-Ready Output**: Includes AGENT-GUIDE.md for AI assistants
 - **MCP Server**: Model Context Protocol server for programmatic access
@@ -47,9 +47,9 @@ Returns: ZIP file blob
 ```json
 {
   "mcpServers": {
-    "llms-forge": {
+    "llm-energy": {
       "command": "npx",
-      "args": ["-y", "@llms-forge/mcp-server"]
+      "args": ["-y", "@llm-energy/mcp-server"]
     }
   }
 }
@@ -66,8 +66,8 @@ Returns: ZIP file blob
 
 ## Links
 
-- Website: https://llms-forge.vercel.app
-- Documentation: https://llms-forge.vercel.app/docs
+- Website: https://llm.energy
+- Documentation: https://llm.energy/docs
 - GitHub: https://github.com/nirholas/lyra-tool-discovery
 - Author: https://x.com/nichxbt
 
