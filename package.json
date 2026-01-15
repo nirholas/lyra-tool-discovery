@@ -47,6 +47,7 @@
   "dependencies": {
     "@anthropic-ai/sdk": "^0.52.0",
     "commander": "^13.0.0",
+    "jszip": "^3.10.1",
     "openai": "^4.77.0"
   },
   "devDependencies": {
