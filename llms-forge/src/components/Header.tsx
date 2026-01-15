@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { Zap, Globe } from 'lucide-react'
+import { Zap, Github } from 'lucide-react'
 import Link from 'next/link'
 
 export default function Header() {
@@ -20,14 +20,9 @@ export default function Header() {
                 <Zap className="w-5 h-5 text-dark-900" />
               </div>
             </div>
-            <div className="flex items-center gap-2">
-              <span className="text-lg font-bold text-white">
-                LLMs Forge
-              </span>
-              <span className="px-1.5 py-0.5 text-[10px] font-medium bg-cyber-green/10 text-cyber-green rounded border border-cyber-green/20">
-                BETA
-              </span>
-            </div>
+            <span className="text-lg font-bold text-white">
+              LLMs Forge
+            </span>
           </Link>
 
           {/* Nav */}
@@ -38,27 +33,26 @@ export default function Header() {
             <a href="#features" className="text-gray-400 hover:text-white transition-colors">
               Features
             </a>
-            <a href="#" className="text-gray-400 hover:text-white transition-colors flex items-center gap-1.5">
-              <Globe className="w-4 h-4" />
-              API
-            </a>
-            <a href="#" className="text-gray-400 hover:text-white transition-colors">
-              Pricing
-            </a>
           </nav>
 
           {/* Right side */}
           <div className="flex items-center gap-3">
-            <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full bg-dark-700/50 border border-gray-800 text-xs">
-              <span className="w-1.5 h-1.5 rounded-full bg-cyber-green animate-pulse" />
-              <span className="text-gray-400">All systems operational</span>
-            </div>
-            <button className="px-4 py-2 text-sm font-medium text-white bg-dark-700/50 border border-gray-700 rounded-lg hover:bg-dark-600/50 transition-colors">
-              Sign in
-            </button>
-            <button className="px-4 py-2 text-sm font-medium bg-white text-dark-900 rounded-lg hover:bg-gray-100 transition-colors">
+            <a 
+              href="https://github.com/nirholas/lyra-tool-discovery"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-400 hover:text-white bg-dark-700/50 border border-gray-700 rounded-lg hover:bg-dark-600/50 transition-colors"
+              aria-label="View on GitHub"
+            >
+              <Github className="w-4 h-4" />
+              <span className="hidden sm:inline">GitHub</span>
+            </a>
+            <a
+              href="#extract"
+              className="px-4 py-2 text-sm font-medium bg-white text-dark-900 rounded-lg hover:bg-gray-100 transition-colors"
+            >
               Get started
-            </button>
+            </a>
           </div>
         </div>
       </div>

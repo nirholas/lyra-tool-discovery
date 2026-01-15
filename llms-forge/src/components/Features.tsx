@@ -2,57 +2,32 @@
 
 import { motion } from 'framer-motion'
 import { 
-  Zap, Server, Code, Globe, Shield, Bot, 
-  Layers, GitBranch, FileJson
+  Search, Scissors, Bot, Archive, FileText, Download
 } from 'lucide-react'
 
 const FEATURES = [
   {
-    icon: Layers,
-    title: 'Ensemble Architecture',
-    description: 'Combine 1,600+ specialized extraction models trained on different documentation formats and frameworks.',
+    icon: Search,
+    title: 'Smart Discovery',
+    description: 'Automatically finds llms.txt or llms-full.txt on any documentation site.',
     color: 'cyber-green',
+  },
+  {
+    icon: Scissors,
+    title: 'Organized Sections',
+    description: 'Splits documentation into individual markdown files by section headers.',
+    color: 'cyber-blue',
   },
   {
     icon: Bot,
     title: 'Agent-Ready Output',
-    description: 'Automatically formatted for MCP servers, function calling, and AI agent consumption with proper metadata.',
-    color: 'cyber-blue',
-  },
-  {
-    icon: Globe,
-    title: 'REST API',
-    description: 'Full REST API with OpenAPI spec. Rate limits up to 10,000 requests/hour on Pro plans.',
+    description: 'Includes AGENT-GUIDE.md with instructions for AI assistants like Claude and ChatGPT.',
     color: 'cyber-purple',
   },
   {
-    icon: Shield,
-    title: 'Enterprise Security',
-    description: 'SOC2 Type II certified with end-to-end encryption and optional customer-managed keys.',
-    color: 'cyber-pink',
-  },
-  {
-    icon: Zap,
-    title: 'Sub-3s Processing',
-    description: 'Average end-to-end extraction time under 3 seconds for standard documentation sites.',
-    color: 'cyber-green',
-  },
-  {
-    icon: Server,
-    title: 'Hosted MCP Servers',
-    description: 'Deploy instantly as a hosted MCP server. Your docs become queryable tools for AI agents.',
-    color: 'cyber-blue',
-  },
-  {
-    icon: GitBranch,
-    title: 'Version Control',
-    description: 'Automatic versioning of extracted docs with diff tracking and rollback capabilities.',
-    color: 'cyber-purple',
-  },
-  {
-    icon: FileJson,
-    title: 'Multiple Formats',
-    description: 'Export as JSON, JSONL, Markdown, or plain text with configurable chunking strategies.',
+    icon: Archive,
+    title: 'One-Click Download',
+    description: 'Download individual files or everything bundled as a convenient ZIP archive.',
     color: 'cyber-pink',
   },
 ]
@@ -67,7 +42,7 @@ export default function Features() {
           viewport={{ once: true }}
           className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-cyber-purple/10 to-cyber-pink/10 border border-cyber-purple/20 mb-6"
         >
-          <Shield className="w-4 h-4 text-cyber-purple" />
+          <FileText className="w-4 h-4 text-cyber-purple" />
           <span className="text-sm font-medium text-cyber-purple">FEATURES</span>
         </motion.div>
         
@@ -78,7 +53,7 @@ export default function Features() {
           transition={{ delay: 0.1 }}
           className="text-4xl md:text-5xl font-bold text-white mb-4"
         >
-          Everything You Need
+          Simple & Effective
         </motion.h2>
         
         <motion.p
@@ -88,7 +63,7 @@ export default function Features() {
           transition={{ delay: 0.2 }}
           className="text-xl text-gray-400 max-w-2xl mx-auto"
         >
-          Production-ready documentation extraction infrastructure
+          Everything you need to get documentation ready for AI agents
         </motion.p>
       </div>
 

@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { Sparkles, Bot, Layers, ArrowRight, Cpu } from 'lucide-react'
+import { FileText, Bot, Download, ArrowRight, Github } from 'lucide-react'
 
 export default function Hero() {
   return (
@@ -12,9 +12,9 @@ export default function Hero() {
         animate={{ opacity: 1, scale: 1 }}
         className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-cyber-green/10 to-cyber-blue/10 border border-cyber-green/20 mb-8"
       >
-        <Sparkles className="w-4 h-4 text-cyber-green" />
+        <Github className="w-4 h-4 text-cyber-green" />
         <span className="text-sm font-medium text-gray-300">
-          Introducing <span className="text-cyber-green font-semibold">Forge-1</span> — our foundation model for documentation
+          Free & <span className="text-cyber-green font-semibold">Open Source</span>
         </span>
       </motion.div>
 
@@ -25,9 +25,9 @@ export default function Hero() {
         transition={{ delay: 0.1 }}
         className="text-5xl md:text-7xl font-bold mb-6 leading-[1.1] tracking-tight"
       >
-        <span className="block text-white">Documentation Intelligence</span>
+        <span className="block text-white">Extract Documentation</span>
         <span className="block bg-gradient-to-r from-cyber-green via-cyber-blue to-cyber-purple bg-clip-text text-transparent">
-          for the AI Era
+          for AI Agents
         </span>
       </motion.h1>
 
@@ -38,8 +38,7 @@ export default function Hero() {
         transition={{ delay: 0.2 }}
         className="text-xl text-gray-400 max-w-2xl mx-auto mb-10 leading-relaxed"
       >
-        Transform any documentation into AI-ready knowledge bases. 
-        Powered by <span className="text-white font-medium">Forge-1</span>, our ensemble model combining 1,600+ specialized extractors trained on technical documentation.
+        Instantly fetch and organize llms.txt files into downloadable markdown documents ready for Claude, ChatGPT, and other AI assistants.
       </motion.p>
 
       {/* CTA buttons */}
@@ -64,7 +63,7 @@ export default function Hero() {
         </a>
       </motion.div>
 
-      {/* Key stats */}
+      {/* Key features */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -72,9 +71,9 @@ export default function Hero() {
         className="flex flex-wrap justify-center gap-8 text-sm"
       >
         {[
-          { icon: Layers, label: '1,600+ model ensemble', desc: 'Specialized extractors' },
-          { icon: Bot, label: 'Agent-native output', desc: 'MCP & function calling ready' },
-          { icon: Cpu, label: '< 3s average', desc: 'End-to-end processing' },
+          { icon: FileText, label: 'Fetches llms.txt', desc: 'Automatic discovery' },
+          { icon: Bot, label: 'Agent-ready output', desc: 'Organized markdown files' },
+          { icon: Download, label: 'One-click download', desc: 'Individual or ZIP bundle' },
         ].map((item, i) => (
           <div key={i} className="flex items-center gap-3 text-left">
             <div className="w-10 h-10 rounded-lg bg-dark-700/50 border border-gray-800 flex items-center justify-center">

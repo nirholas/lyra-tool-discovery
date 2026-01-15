@@ -1,0 +1,59 @@
+# LLMs Forge Documentation
+
+> Extract documentation for AI agents from any site with llms.txt support
+
+## Overview
+
+LLMs Forge is a free, open-source tool that fetches documentation from websites supporting the llms.txt standard and organizes it into downloadable markdown files optimized for AI assistants.
+
+## Quick Start
+
+1. Visit [llms-forge.vercel.app](https://llms-forge.vercel.app)
+2. Paste any documentation URL
+3. Click Extract
+4. Download organized markdown files
+
+## Features
+
+- **Smart Discovery**: Automatically finds llms.txt or llms-full.txt
+- **Document Parsing**: Splits content into organized markdown sections
+- **Agent-Ready Output**: Includes AGENT-GUIDE.md for AI assistants
+- **MCP Server**: Model Context Protocol server for programmatic access
+- **Bulk Download**: Individual files or ZIP bundle
+
+## Output Files
+
+- `llms-full.md` - Complete consolidated documentation
+- `AGENT-GUIDE.md` - Usage instructions for AI assistants
+- Individual `.md` files - One per documentation section
+
+## API
+
+### Extract Documentation
+```
+POST /api/extract
+Body: { "url": "https://docs.example.com" }
+```
+
+### MCP Server
+```json
+{
+  "mcpServers": {
+    "llms-forge": {
+      "command": "npx",
+      "args": ["-y", "@llms-forge/mcp-server"]
+    }
+  }
+}
+```
+
+## Links
+
+- Website: https://llms-forge.vercel.app
+- Documentation: https://llms-forge.vercel.app/docs
+- GitHub: https://github.com/nirholas/lyra-tool-discovery
+- Author: https://x.com/nichxbt
+
+## License
+
+MIT

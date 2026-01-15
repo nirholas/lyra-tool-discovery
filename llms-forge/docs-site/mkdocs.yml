@@ -1,0 +1,117 @@
+site_name: LLMs Forge
+site_url: https://llms-forge.vercel.app
+site_description: Extract documentation for AI agents from any site with llms.txt support
+site_author: nich
+
+repo_name: nirholas/lyra-tool-discovery
+repo_url: https://github.com/nirholas/lyra-tool-discovery
+edit_uri: edit/main/llms-forge/docs-site/docs/
+
+theme:
+  name: material
+  favicon: assets/favicon.svg
+  logo: assets/logo.svg
+  font:
+    text: Inter
+    code: JetBrains Mono
+  palette:
+    # Light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: white
+      accent: black
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+    # Dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: black
+      accent: white
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+  
+  features:
+    - navigation.instant
+    - navigation.instant.progress
+    - navigation.tracking
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.sections
+    - navigation.expand
+    - navigation.indexes
+    - navigation.top
+    - navigation.footer
+    - search.suggest
+    - search.highlight
+    - search.share
+    - content.tabs.link
+    - content.code.copy
+    - content.code.annotate
+    - header.autohide
+    - toc.follow
+  
+  icon:
+    repo: fontawesome/brands/github
+    logo: material/file-document-multiple
+
+plugins:
+  - search
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - attr_list
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+      toc_depth: 3
+
+nav:
+  - index.md
+  - Getting Started:
+    - getting-started.md
+  - Documentation:
+    - how-it-works.md
+    - api-reference.md
+  - Tools:
+    - mcp-server.md
+  - Deploy:
+    - self-hosting.md
+  - FAQ: faq.md
+
+extra:
+  social:
+    - icon: fontawesome/brands/x-twitter
+      link: https://x.com/nichxbt
+      name: nich on X
+    - icon: fontawesome/brands/github
+      link: https://github.com/nirholas
+      name: nich on GitHub
+  generator: false
+  analytics:
+    provider: google
+    property: G-XXXXXXXXXX  # Replace with your Google Analytics ID
+
+extra_css:
+  - stylesheets/extra.css
+
+copyright: Copyright &copy; 2024-2026 nich

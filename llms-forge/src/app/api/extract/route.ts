@@ -1,15 +1,19 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { nanoid } from 'nanoid'
-
-// Simulated processing delay to make it look like we're doing something complex
-const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms))
+import { parseLlmsContent, extractSiteName } from '@/lib/parser'
+import { generateAllDocuments } from '@/lib/generator'
+import { ExtractionResult } from '@/types'
 
 export async function POST(request: NextRequest) {
+  const startTime = Date.now()
+  
   try {
     const { url } = await request.json()
     
     if (!url) {
-      return NextResponse.json({ error: 'URL is required' }, { status: 400 })
+      return NextResponse.json(
+        { error: 'URL is required' },
+        { status: 400 }
+      )
     }
 
     // Parse and normalize the URL
@@ -19,38 +23,92 @@ export async function POST(request: NextRequest) {
     }
 
     // Extract base domain
-    const urlObj = new URL(targetUrl)
+    let urlObj: URL
+    try {
+      urlObj = new URL(targetUrl)
+    } catch {
+      return NextResponse.json(
+        { error: 'Invalid URL format' },
+        { status: 400 }
+      )
+    }
+    
     const baseUrl = `${urlObj.protocol}//${urlObj.host}`
     
-    // THE SECRET SAUCE: Just append /llms-full.txt 🤫
-    const llmsUrl = `${baseUrl}/llms-full.txt`
+    // Try llms-full.txt first, then fallback to llms.txt
+    let content: string | null = null
+    let sourceUrl: string = ''
     
-    // Add a dramatic delay to make it seem like we're doing something complex
-    // In reality, we're just... waiting
-    await delay(8000 + Math.random() * 4000) // 8-12 seconds of "processing"
+    const urlsToTry = [
+      `${baseUrl}/llms-full.txt`,
+      `${baseUrl}/llms.txt`
+    ]
     
-    // Fetch the actual content
-    const response = await fetch(llmsUrl, {
-      headers: {
-        'User-Agent': 'LLMs-Forge/3.7.2-quantum (Enterprise Documentation Extractor)',
-      },
-    })
-
-    if (!response.ok) {
-      // If llms-full.txt doesn't exist, try llms.txt
-      const fallbackUrl = `${baseUrl}/llms.txt`
-      const fallbackResponse = await fetch(fallbackUrl)
-      
-      if (!fallbackResponse.ok) {
-        throw new Error(`Documentation endpoint not found at ${urlObj.host}`)
+    for (const tryUrl of urlsToTry) {
+      try {
+        const response = await fetch(tryUrl, {
+          headers: {
+            'User-Agent': 'LLMs-Forge/1.0 (Documentation Extractor)',
+          },
+        })
+        
+        if (response.ok) {
+          content = await response.text()
+          sourceUrl = tryUrl
+          break
+        }
+      } catch {
+        // Continue to next URL
+        continue
       }
-      
-      const content = await fallbackResponse.text()
-      return generateResponse(content, url, fallbackUrl)
     }
-
-    const content = await response.text()
-    return generateResponse(content, url, llmsUrl)
+    
+    if (!content) {
+      return NextResponse.json(
+        { error: `No llms.txt or llms-full.txt found at ${urlObj.host}` },
+        { status: 404 }
+      )
+    }
+    
+    // Parse the content into documents
+    const parsedDocuments = parseLlmsContent(content)
+    
+    if (parsedDocuments.length === 0) {
+      return NextResponse.json(
+        { error: 'No content could be parsed from the documentation' },
+        { status: 422 }
+      )
+    }
+    
+    // Generate all output documents
+    const { documents, fullDocument, agentGuide } = generateAllDocuments(
+      parsedDocuments,
+      content,
+      sourceUrl
+    )
+    
+    // Calculate statistics
+    const totalTokens = documents.reduce((sum, doc) => sum + doc.tokens, 0) 
+      + fullDocument.tokens 
+      + agentGuide.tokens
+    
+    const processingTime = Date.now() - startTime
+    
+    const result: ExtractionResult = {
+      url: targetUrl,
+      sourceUrl,
+      rawContent: content,
+      documents,
+      fullDocument,
+      agentGuide,
+      stats: {
+        totalTokens,
+        documentCount: documents.length,
+        processingTime
+      }
+    }
+    
+    return NextResponse.json(result)
     
   } catch (error) {
     console.error('Extraction error:', error)
@@ -59,47 +117,4 @@ export async function POST(request: NextRequest) {
       { status: 500 }
     )
   }
-}
-
-function generateResponse(content: string, originalUrl: string, actualUrl: string) {
-  const id = nanoid(12)
-  const tokens = Math.ceil(content.length / 4) // Rough token estimate
-  const chunks = Math.ceil(content.length / 8000) // Simulated chunks
-  const processingTime = Math.floor(8000 + Math.random() * 4000) // Fake processing time
-  
-  // Generate a fake MCP config
-  const mcpConfig = JSON.stringify({
-    "mcpServers": {
-      [`llms-forge-${id}`]: {
-        "command": "npx",
-        "args": [
-          "-y",
-          "@llms-forge/mcp-server",
-          `--endpoint=https://api.llms-forge.io/v1/docs/${id}`
-        ],
-        "env": {
-          "LLMS_FORGE_API_KEY": "your-api-key-here"
-        }
-      }
-    }
-  }, null, 2)
-
-  // Generate a fake API endpoint
-  const apiEndpoint = `https://api.llms-forge.io/v1/docs/${id}`
-
-  return NextResponse.json({
-    success: true,
-    content,
-    url: originalUrl,
-    sourceUrl: actualUrl,
-    stats: {
-      tokens,
-      chunks,
-      processingTime,
-      compressionRatio: (1 + Math.random() * 0.5).toFixed(2),
-    },
-    mcpConfig,
-    apiEndpoint,
-    expiresAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(), // 30 days
-  })
 }

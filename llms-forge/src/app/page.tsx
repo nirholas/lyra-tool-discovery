@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { AlertTriangle } from 'lucide-react'
 import Header from '@/components/Header'
 import Hero from '@/components/Hero'
 import HowItWorks from '@/components/HowItWorks'
@@ -12,21 +13,9 @@ import Features from '@/components/Features'
 import Stats from '@/components/Stats'
 import Footer from '@/components/Footer'
 import ParticleBackground from '@/components/ParticleBackground'
+import type { ExtractionResult, ExtractionState } from '@/types'
 
-export type ExtractionState = 'idle' | 'extracting' | 'complete' | 'error'
-
-export interface ExtractionResult {
-  content: string
-  url: string
-  stats: {
-    tokens: number
-    chunks: number
-    processingTime: number
-    compressionRatio: number
-  }
-  mcpConfig: string
-  apiEndpoint: string
-}
+export type { ExtractionResult, ExtractionState }
 
 export default function Home() {
   const [state, setState] = useState<ExtractionState>('idle')
@@ -116,7 +105,10 @@ export default function Home() {
                   exit={{ opacity: 0, scale: 0.9 }}
                   className="rounded-xl border border-red-500/20 bg-dark-800/80 p-8 text-center"
                 >
-                  <div className="text-red-400 text-xl mb-4">⚠️ Extraction Failed</div>
+                  <div className="flex items-center justify-center gap-2 text-red-400 text-xl mb-4">
+                    <AlertTriangle className="w-6 h-6" />
+                    Extraction Failed
+                  </div>
                   <p className="text-gray-400 mb-6">{error}</p>
                   <button
                     onClick={handleReset}

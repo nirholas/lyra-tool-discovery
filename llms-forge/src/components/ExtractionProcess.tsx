@@ -3,31 +3,29 @@
 import { useState, useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
 import { 
-  Loader2, Check, Globe, FileSearch, Brain, Layers, Sparkles, Bot
+  Loader2, Check, Globe, FileText, Scissors, Files
 } from 'lucide-react'
 
 const STAGES = [
-  { id: 'connect', label: 'Connecting to documentation source', icon: Globe, duration: 800 },
-  { id: 'discover', label: 'Discovering documentation structure', icon: FileSearch, duration: 1200 },
-  { id: 'analyze', label: 'Running Forge-1 content analysis', icon: Brain, duration: 2000 },
-  { id: 'extract', label: 'Extracting documentation content', icon: Layers, duration: 1800 },
-  { id: 'process', label: 'Processing with ensemble models', icon: Sparkles, duration: 1500 },
-  { id: 'optimize', label: 'Optimizing for agent consumption', icon: Bot, duration: 1000 },
+  { id: 'connect', label: 'Connecting to site', icon: Globe, duration: 800 },
+  { id: 'fetch', label: 'Fetching llms.txt', icon: FileText, duration: 1200 },
+  { id: 'parse', label: 'Parsing sections', icon: Scissors, duration: 1500 },
+  { id: 'generate', label: 'Generating documents', icon: Files, duration: 1000 },
 ]
 
 const TERMINAL_LOGS = [
-  '> Initializing Forge-1 extraction pipeline...',
-  '> Connecting to documentation endpoint',
-  '> Analyzing site structure and content type',
-  '> Running ensemble model inference (1,600+ models)',
-  '> Extracting semantic documentation nodes',
-  '> Processing markdown and code snippets',
-  '> Applying intelligent chunking strategies',
-  '> Optimizing context boundaries',
-  '> Generating agent-ready metadata',
-  '> Creating MCP server configuration',
-  '> Validating output integrity',
-  '> Extraction complete ✓',
+  '> Initializing extraction...',
+  '> Connecting to documentation site',
+  '> Looking for llms-full.txt',
+  '> Falling back to llms.txt',
+  '> File found, fetching content',
+  '> Parsing markdown structure',
+  '> Identifying section headers',
+  '> Splitting into documents',
+  '> Generating llms-full.md',
+  '> Creating AGENT-GUIDE.md',
+  '> Preparing download bundle',
+  '> Extraction complete',
 ]
 
 export default function ExtractionProcess() {
@@ -112,7 +110,7 @@ export default function ExtractionProcess() {
             </div>
             <div>
               <h2 className="font-semibold text-white">Extracting Documentation</h2>
-              <p className="text-xs text-gray-500">Processing with Forge-1</p>
+              <p className="text-xs text-gray-500">Fetching and parsing llms.txt</p>
             </div>
           </div>
           <div className="text-right">
@@ -217,7 +215,7 @@ export default function ExtractionProcess() {
               <div className="w-3 h-3 rounded-full bg-yellow-500/80" />
               <div className="w-3 h-3 rounded-full bg-green-500/80" />
             </div>
-            <span className="text-xs text-gray-500 font-mono ml-2">forge-1.log</span>
+            <span className="text-xs text-gray-500 font-mono ml-2">extraction.log</span>
           </div>
           <div 
             ref={terminalRef}
@@ -229,7 +227,7 @@ export default function ExtractionProcess() {
                 initial={{ opacity: 0, x: -10 }}
                 animate={{ opacity: 1, x: 0 }}
                 className={`terminal-line ${
-                  line.includes('✓') ? 'text-cyber-green' : 'text-gray-400'
+                  line.includes('complete') ? 'text-cyber-green' : 'text-gray-400'
                 }`}
               >
                 {line}

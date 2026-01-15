@@ -2,9 +2,9 @@ import type { Metadata } from 'next'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'LLMs Forge | Enterprise AI Documentation Extraction Platform™',
-  description: 'Revolutionary AI-powered documentation extraction using quantum-enhanced neural networks and blockchain-verified data pipelines.',
-  keywords: ['AI', 'LLM', 'documentation', 'extraction', 'MCP', 'API', 'neural networks'],
+  title: 'LLMs Forge | Extract Documentation for AI Agents',
+  description: 'Fetch and organize llms.txt files into downloadable markdown documents ready for Claude, ChatGPT, and other AI assistants.',
+  keywords: ['AI', 'LLM', 'documentation', 'llms.txt', 'markdown', 'Claude', 'ChatGPT'],
 }
 
 export default function RootLayout({

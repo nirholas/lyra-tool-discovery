@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { Search, ArrowRight, Globe, Sparkles } from 'lucide-react'
+import { Search, ArrowRight, Globe, FileText, Check } from 'lucide-react'
 
 interface UrlInputProps {
   onSubmit: (url: string) => void
@@ -52,8 +52,8 @@ export default function UrlInput({ onSubmit }: UrlInputProps) {
             </div>
           </div>
           <div className="flex items-center gap-2 text-xs text-gray-500">
-            <Sparkles className="w-3.5 h-3.5 text-cyber-green" />
-            <span>Powered by Forge-1</span>
+            <FileText className="w-3.5 h-3.5 text-cyber-green" />
+            <span>Looks for llms.txt</span>
           </div>
         </div>
 
@@ -102,11 +102,19 @@ export default function UrlInput({ onSubmit }: UrlInputProps) {
         {/* Footer info */}
         <div className="px-6 py-3 bg-dark-900/50 border-t border-gray-800/50 flex items-center justify-between text-xs text-gray-500">
           <div className="flex items-center gap-4">
-            <span>✓ Automatic format detection</span>
-            <span>✓ Agent-ready output</span>
-            <span>✓ Hosted MCP server</span>
+            <span className="flex items-center gap-1.5">
+              <Check className="w-3.5 h-3.5 text-cyber-green" />
+              Auto-detects llms.txt
+            </span>
+            <span className="flex items-center gap-1.5">
+              <Check className="w-3.5 h-3.5 text-cyber-green" />
+              Organized markdown output
+            </span>
+            <span className="flex items-center gap-1.5 hidden sm:flex">
+              <Check className="w-3.5 h-3.5 text-cyber-green" />
+              Agent-ready format
+            </span>
           </div>
-          <span>Free tier: 100 extractions/month</span>
         </div>
       </div>
     </motion.div>
