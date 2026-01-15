@@ -1,16 +1,35 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { FileText, Bot, Download, ArrowRight, Github } from 'lucide-react'
+import { Github, ArrowRight, FileText, Bot, Download } from 'lucide-react'
+import { useRouter } from 'next/navigation'
+import UrlInput from './UrlInput'
+
+const QUICK_TRY = [
+  { name: 'Next.js', url: 'https://nextjs.org/docs' },
+  { name: 'Vercel', url: 'https://vercel.com/docs' },
+  { name: 'Stripe', url: 'https://stripe.com/docs' },
+  { name: 'Tailwind', url: 'https://tailwindcss.com/docs' },
+]
 
 export default function Hero() {
+  const router = useRouter()
+
+  const handleSubmit = (url: string) => {
+    router.push(`/extract?url=${encodeURIComponent(url)}`)
+  }
+
+  const handleQuickTry = (url: string) => {
+    router.push(`/extract?url=${encodeURIComponent(url)}`)
+  }
+
   return (
-    <div className="text-center py-20">
-      {/* Badge */}
+    <div className="text-center py-12">
+      {/* Badge - Moved up, closer to header */}
       <motion.div
         initial={{ opacity: 0, scale: 0.8 }}
         animate={{ opacity: 1, scale: 1 }}
-        className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 mb-8"
+        className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 mb-6"
       >
         <Github className="w-4 h-4 text-white/60" />
         <span className="text-sm font-medium text-neutral-400">
@@ -23,51 +42,104 @@ export default function Hero() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.1 }}
-        className="text-5xl md:text-7xl font-bold mb-6 leading-[1.1] tracking-tight"
+        className="text-5xl md:text-7xl font-bold mb-4 leading-[1.1] tracking-tight"
       >
         <span className="block text-white">Extract Documentation</span>
-        <span className="block text-neutral-500">
-          for AI Agents
-        </span>
+        <span className="block text-neutral-500">for AI Agents</span>
       </motion.h1>
 
-      {/* Subtitle */}
+      {/* Short subheadline */}
       <motion.p
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.2 }}
-        className="text-xl text-neutral-400 max-w-2xl mx-auto mb-10 leading-relaxed"
+        transition={{ delay: 0.15 }}
+        className="text-xl text-neutral-400 mb-8"
       >
-        Instantly fetch and organize llms.txt files into downloadable markdown documents ready for Claude, ChatGPT, and other AI assistants.
+        Enter any URL to get started
       </motion.p>
 
-      {/* CTA buttons */}
+      {/* URL Input - PROMINENT, centerpiece */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.3 }}
-        className="flex flex-wrap justify-center gap-4 mb-12"
+        transition={{ delay: 0.2 }}
+        className="max-w-2xl mx-auto mb-4"
       >
-        <a 
-          href="#extract"
-          className="px-8 py-4 bg-white rounded-xl font-semibold text-black flex items-center gap-2 hover:bg-neutral-200 transition-all shadow-lg shadow-white/5"
-        >
-          Start Extracting
-          <ArrowRight className="w-5 h-5" />
-        </a>
-        <a
-          href="#how-it-works"
-          className="px-8 py-4 bg-transparent border border-neutral-700 rounded-xl font-semibold text-white hover:border-neutral-500 hover:bg-white/5 transition-all"
-        >
-          How It Works
-        </a>
+        <UrlInput onSubmit={handleSubmit} />
       </motion.div>
 
-      {/* Key features */}
+      {/* Quick try buttons */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
+        transition={{ delay: 0.25 }}
+        className="flex flex-wrap justify-center items-center gap-2 mb-4"
+      >
+        <span className="text-sm text-neutral-500">Try:</span>
+        {QUICK_TRY.map((site, i) => (
+          <button
+            key={site.name}
+            onClick={() => handleQuickTry(site.url)}
+            className="px-3 py-1.5 text-sm bg-white/5 border border-neutral-800 rounded-lg hover:border-neutral-600 hover:bg-white/10 transition-all text-neutral-400 hover:text-white"
+          >
+            {site.name}
+          </button>
+        ))}
+      </motion.div>
+
+      {/* Feature pills - small, muted */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.3 }}
+        className="flex flex-wrap justify-center items-center gap-2 text-xs text-neutral-500 mb-16"
+      >
+        <span>Auto-detects llms.txt</span>
+        <span className="text-neutral-700">•</span>
+        <span>Organized markdown</span>
+        <span className="text-neutral-700">•</span>
+        <span>Agent-ready format</span>
+      </motion.div>
+
+      {/* Longer description - moved down with spacing */}
+      <motion.p
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.35 }}
+        className="text-lg text-neutral-400 max-w-2xl mx-auto mb-8 leading-relaxed"
+      >
+        Instantly fetch and organize documentation into downloadable markdown documents ready for Claude, ChatGPT, and other AI assistants.
+      </motion.p>
+
+      {/* Action buttons */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.4 }}
+        className="flex flex-wrap justify-center gap-4 mb-12"
+      >
+        <a
+          href="#how-it-works"
+          className="px-6 py-3 bg-transparent border border-neutral-700 rounded-xl font-semibold text-white hover:border-neutral-500 hover:bg-white/5 transition-all"
+        >
+          How It Works
+        </a>
+        <a
+          href="https://github.com/nirholas/lyra-tool-discovery"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="px-6 py-3 bg-transparent border border-neutral-700 rounded-xl font-semibold text-white hover:border-neutral-500 hover:bg-white/5 transition-all flex items-center gap-2"
+        >
+          <Github className="w-4 h-4" />
+          View on GitHub
+        </a>
+      </motion.div>
+
+      {/* Key features - visual summary */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.45 }}
         className="flex flex-wrap justify-center gap-8 text-sm"
       >
         {[

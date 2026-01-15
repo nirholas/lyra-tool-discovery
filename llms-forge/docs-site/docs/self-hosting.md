@@ -1,6 +1,6 @@
 # Self Hosting
 
-Deploy LLMs Forge on your own infrastructure.
+Deploy llm.energy on your own infrastructure.
 
 ---
 

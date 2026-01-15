@@ -1,13 +1,13 @@
 # API Reference
 
-REST API for LLMs Forge.
+REST API for llm.energy.
 
 ---
 
 ## Base URL
 
 ```
-https://llms-forge.vercel.app/api
+https://llm.energy/api
 ```
 
 ---

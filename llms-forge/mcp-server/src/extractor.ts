@@ -36,7 +36,7 @@ export async function extractDocumentation(url: string): Promise<ExtractionResul
     try {
       const response = await fetch(tryUrl, {
         headers: {
-          'User-Agent': 'LLMs-Forge-MCP/1.0 (Documentation Extractor)',
+          'User-Agent': 'llm-energy-MCP/1.0 (Documentation Extractor)',
         },
       })
       

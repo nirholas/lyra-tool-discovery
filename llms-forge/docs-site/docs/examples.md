@@ -1,6 +1,6 @@
 # Examples
 
-Real-world examples of using LLMs Forge.
+Real-world examples of using llm.energy.
 
 ---
 
@@ -8,7 +8,7 @@ Real-world examples of using LLMs Forge.
 
 ```bash
 # Web App
-https://llms-forge.vercel.app
+https://llm.energy
 
 # Enter URL
 docs.anthropic.com
@@ -42,7 +42,7 @@ docs.stripe.com
 
 ## Using with Claude
 
-1. Extract documentation using LLMs Forge
+1. Extract documentation using llm.energy
 2. Download the ZIP archive
 3. In Claude, start a new conversation
 4. Upload `llms-full.md` or individual files
@@ -82,7 +82,7 @@ Claude: [Uses extract_documentation tool]
 ```
 You: "What MCP tools do you have for documentation?"
 
-Claude: "I have access to llms-forge with these tools:
+Claude: "I have access to llm-energy with these tools:
         - extract_documentation: Extract docs from a URL
         - fetch_llms_txt: Get raw llms.txt content
         - get_document: Retrieve a cached document

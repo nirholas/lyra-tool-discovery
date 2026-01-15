@@ -1,12 +1,12 @@
-# LLMs Forge
+# llm.energy
 
 Extract documentation for AI agents from any site with llms.txt support.
 
 ---
 
-## What is LLMs Forge?
+## What is llm.energy?
 
-LLMs Forge fetches documentation from websites that support the [llms.txt standard](https://llmstxt.org/) and organizes it into downloadable markdown files optimized for AI assistants.
+llm.energy fetches documentation from websites that support the [llms.txt standard](https://llmstxt.org/) and organizes it into downloadable markdown files optimized for AI assistants.
 
 <div class="grid cards" markdown>
 
@@ -42,7 +42,7 @@ LLMs Forge fetches documentation from websites that support the [llms.txt standa
 
 **Web App**
 
-1. Visit [llms-forge.vercel.app](https://llms-forge.vercel.app)
+1. Visit [llm.energy](https://llm.energy)
 2. Enter a documentation URL
 3. Download the extracted files
 
@@ -51,9 +51,9 @@ LLMs Forge fetches documentation from websites that support the [llms.txt standa
 ```json
 {
   "mcpServers": {
-    "llms-forge": {
+    "llm-energy": {
       "command": "npx",
-      "args": ["-y", "@llms-forge/mcp-server"]
+      "args": ["-y", "@llm-energy/mcp-server"]
     }
   }
 }

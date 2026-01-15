@@ -1,6 +1,6 @@
 # Overview
 
-How LLMs Forge works.
+How llm.energy works.
 
 ---
 
@@ -27,7 +27,7 @@ flowchart LR
 
 ### 1. Fetch
 
-LLMs Forge fetches:
+llm.energy fetches:
 
 1. `{url}/llms-full.txt` (complete documentation)
 2. Falls back to `{url}/llms.txt` if full version unavailable

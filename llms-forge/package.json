@@ -1,7 +1,7 @@
 {
   "name": "llms-forge",
   "version": "1.0.0",
-  "description": "Enterprise-Grade AI Documentation Extraction Platform™",
+  "description": "llm.energy - Extract documentation for AI agents from any site with llms.txt support",
   "private": true,
   "scripts": {
     "dev": "next dev -p 3001",

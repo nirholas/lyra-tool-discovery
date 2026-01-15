@@ -21,7 +21,7 @@ export default function Header() {
               </div>
             </div>
             <span className="text-lg font-bold text-white">
-              LLMs Forge
+              llm.energy
             </span>
           </Link>
 

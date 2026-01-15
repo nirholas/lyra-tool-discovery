@@ -8,8 +8,8 @@ import {
 const FEATURES = [
   {
     icon: Search,
-    title: 'Smart Discovery',
-    description: 'Automatically finds llms.txt or llms-full.txt on any documentation site.',
+    title: 'Smart Extraction',
+    description: 'Fetches llms.txt or llms-full.txt from any documentation site.',
   },
   {
     icon: Scissors,

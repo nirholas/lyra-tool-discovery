@@ -16,7 +16,7 @@ export default function Footer() {
                 <Zap className="w-6 h-6 text-black" />
               </div>
               <span className="text-xl font-bold text-white">
-                LLMs Forge
+                llm.energy
               </span>
             </Link>
             <p className="text-neutral-500 text-sm text-center md:text-left max-w-md">

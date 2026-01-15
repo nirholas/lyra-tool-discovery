@@ -1,10 +1,10 @@
-# LLMs Forge
+# llm.energy
 
 > Extract documentation for AI agents from any site with llms.txt support.
 
 ## Overview
 
-LLMs Forge fetches documentation from websites that support the llms.txt standard and organizes it into downloadable markdown files optimized for AI assistants.
+llm.energy fetches documentation from websites that support the llms.txt standard and organizes it into downloadable markdown files optimized for AI assistants.
 
 ## Features
 
@@ -18,7 +18,7 @@ LLMs Forge fetches documentation from websites that support the llms.txt standar
 
 ### Web App
 
-1. Visit https://llms-forge.vercel.app
+1. Visit https://llm.energy
 2. Enter a documentation URL
 3. Download the extracted files
 
@@ -27,9 +27,9 @@ LLMs Forge fetches documentation from websites that support the llms.txt standar
 ```json
 {
   "mcpServers": {
-    "llms-forge": {
+    "llm-energy": {
       "command": "npx",
-      "args": ["-y", "@llms-forge/mcp-server"]
+      "args": ["-y", "@llm-energy/mcp-server"]
     }
   }
 }
@@ -65,7 +65,7 @@ List all cached documents.
 
 ## API Reference
 
-Base URL: https://llms-forge.vercel.app/api
+Base URL: https://llm.energy/api
 
 ### POST /extract
 
@@ -97,9 +97,10 @@ pnpm dev
 
 ## Links
 
-- Website: https://llms-forge.vercel.app
-- Documentation: https://llms-forge.vercel.app/docs
+- Website: https://llm.energy
 - GitHub: https://github.com/nirholas/lyra-tool-discovery
+- Documentation: https://llm.energy/docs
+- llms.txt Standard: https://llmstxt.org
 - Author: https://x.com/nichxbt
 
 ## License

@@ -1,6 +1,6 @@
 # Tools Reference
 
-Available MCP tools for LLMs Forge.
+Available MCP tools for llm.energy.
 
 ---
 

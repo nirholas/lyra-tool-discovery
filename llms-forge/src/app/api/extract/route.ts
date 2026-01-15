@@ -1,13 +1,19 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { parseLlmsContent, extractSiteName } from '@/lib/parser'
+import { extract, type ExtractionProgress, type ExtractionResult as NewExtractionResult } from '@/lib/extractor'
+import { parseLlmsContent, extractSiteName, slugify, estimateTokens } from '@/lib/parser'
 import { generateAllDocuments } from '@/lib/generator'
-import { ExtractionResult } from '@/types'
+import { ExtractionResult, Document } from '@/types'
 
+/**
+ * POST endpoint - Direct extraction (non-streaming)
+ * Returns complete result when extraction finishes
+ */
 export async function POST(request: NextRequest) {
   const startTime = Date.now()
   
   try {
-    const { url } = await request.json()
+    const body = await request.json()
+    const { url, useNewExtractor = true } = body
     
     if (!url) {
       return NextResponse.json(
@@ -16,13 +22,67 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Parse and normalize the URL
+    // Use the new smart extractor by default
+    if (useNewExtractor) {
+      const result = await extract({ url })
+      
+      if (!result.success) {
+        return NextResponse.json(
+          { error: result.error || 'Extraction failed' },
+          { status: 500 }
+        )
+      }
+      
+      // Transform to match existing API contract
+      const documents: Document[] = result.documents.map((doc, index) => ({
+        filename: `${String(index + 1).padStart(2, '0')}-${slugify(doc.title)}.md`,
+        title: doc.title,
+        content: doc.content,
+        tokens: estimateTokens(doc.content),
+      }))
+      
+      const fullDocument: Document = {
+        filename: 'llms-full.md',
+        title: `${result.source.siteName} Documentation`,
+        content: result.fullDocument,
+        tokens: estimateTokens(result.fullDocument),
+      }
+      
+      const agentGuide: Document = {
+        filename: 'AGENT-GUIDE.md',
+        title: 'Agent Guide',
+        content: result.agentPrompt,
+        tokens: estimateTokens(result.agentPrompt),
+      }
+      
+      const response: ExtractionResult = {
+        url,
+        sourceUrl: result.source.sourceUrl,
+        rawContent: result.fullDocument,
+        documents,
+        fullDocument,
+        agentGuide,
+        stats: {
+          totalTokens: result.stats.totalTokens,
+          documentCount: result.stats.totalDocuments,
+          processingTime: result.stats.extractionTime,
+        },
+      }
+      
+      return NextResponse.json({
+        ...response,
+        // Additional data from new extractor
+        strategy: result.strategy,
+        mcpConfig: result.mcpConfig,
+      })
+    }
+
+    // Legacy extractor path (llms.txt only)
     let targetUrl = url.trim()
     if (!targetUrl.startsWith('http://') && !targetUrl.startsWith('https://')) {
       targetUrl = `https://${targetUrl}`
     }
 
-    // Extract base domain
     let urlObj: URL
     try {
       urlObj = new URL(targetUrl)
@@ -35,7 +95,6 @@ export async function POST(request: NextRequest) {
     
     const baseUrl = `${urlObj.protocol}//${urlObj.host}`
     
-    // Try llms-full.txt first, then fallback to llms.txt
     let content: string | null = null
     let sourceUrl: string = ''
     
@@ -48,7 +107,7 @@ export async function POST(request: NextRequest) {
       try {
         const response = await fetch(tryUrl, {
           headers: {
-            'User-Agent': 'LLMs-Forge/1.0 (Documentation Extractor)',
+            'User-Agent': 'llms-forge/1.0 (Documentation Extractor)',
           },
         })
         
@@ -58,7 +117,6 @@ export async function POST(request: NextRequest) {
           break
         }
       } catch {
-        // Continue to next URL
         continue
       }
     }
@@ -70,7 +128,6 @@ export async function POST(request: NextRequest) {
       )
     }
     
-    // Parse the content into documents
     const parsedDocuments = parseLlmsContent(content)
     
     if (parsedDocuments.length === 0) {
@@ -80,14 +137,12 @@ export async function POST(request: NextRequest) {
       )
     }
     
-    // Generate all output documents
     const { documents, fullDocument, agentGuide } = generateAllDocuments(
       parsedDocuments,
       content,
       sourceUrl
     )
     
-    // Calculate statistics
     const totalTokens = documents.reduce((sum, doc) => sum + doc.tokens, 0) 
       + fullDocument.tokens 
       + agentGuide.tokens
@@ -117,4 +172,62 @@ export async function POST(request: NextRequest) {
       { status: 500 }
     )
   }
+}
+
+/**
+ * GET endpoint - Streaming extraction with Server-Sent Events
+ * Returns progress updates in real-time
+ */
+export async function GET(request: NextRequest) {
+  const url = request.nextUrl.searchParams.get('url')
+  
+  if (!url) {
+    return NextResponse.json(
+      { error: 'URL is required' },
+      { status: 400 }
+    )
+  }
+
+  const encoder = new TextEncoder()
+  
+  const stream = new ReadableStream({
+    async start(controller) {
+      let finalResult: NewExtractionResult | null = null
+      
+      try {
+        finalResult = await extract({
+          url,
+          onProgress: (progress: ExtractionProgress) => {
+            const data = JSON.stringify(progress)
+            controller.enqueue(encoder.encode(`data: ${data}\n\n`))
+          },
+        })
+        
+        // Send final result
+        const resultData = JSON.stringify({
+          type: 'result',
+          data: finalResult,
+        })
+        controller.enqueue(encoder.encode(`data: ${resultData}\n\n`))
+        
+      } catch (error) {
+        const errorData = JSON.stringify({
+          type: 'error',
+          error: error instanceof Error ? error.message : 'Extraction failed',
+        })
+        controller.enqueue(encoder.encode(`data: ${errorData}\n\n`))
+      } finally {
+        controller.close()
+      }
+    },
+  })
+
+  return new Response(stream, {
+    headers: {
+      'Content-Type': 'text/event-stream',
+      'Cache-Control': 'no-cache, no-transform',
+      'Connection': 'keep-alive',
+      'X-Accel-Buffering': 'no', // Disable nginx buffering
+    },
+  })
 }

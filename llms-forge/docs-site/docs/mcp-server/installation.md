@@ -1,6 +1,6 @@
 # Installation
 
-Set up the LLMs Forge MCP server for AI assistants.
+Set up the llm.energy MCP server for AI assistants.
 
 ---
 
@@ -19,9 +19,9 @@ The [Model Context Protocol](https://modelcontextprotocol.io) (MCP) allows AI as
     ```json
     {
       "mcpServers": {
-        "llms-forge": {
+        "llm-energy": {
           "command": "npx",
-          "args": ["-y", "@llms-forge/mcp-server"]
+          "args": ["-y", "@llm-energy/mcp-server"]
         }
       }
     }
@@ -30,14 +30,14 @@ The [Model Context Protocol](https://modelcontextprotocol.io) (MCP) allows AI as
 === "Global Install"
 
     ```bash
-    npm install -g @llms-forge/mcp-server
+    npm install -g @llm-energy/mcp-server
     ```
 
     ```json
     {
       "mcpServers": {
-        "llms-forge": {
-          "command": "llms-forge-mcp"
+        "llm-energy": {
+          "command": "llm-energy-mcp"
         }
       }
     }
@@ -62,9 +62,9 @@ The [Model Context Protocol](https://modelcontextprotocol.io) (MCP) allows AI as
 
     ```json
     {
-      "llms-forge": {
+      "llm-energy": {
         "command": "npx",
-        "args": ["-y", "@llms-forge/mcp-server"]
+        "args": ["-y", "@llm-energy/mcp-server"]
       }
     }
     ```
@@ -75,6 +75,6 @@ The [Model Context Protocol](https://modelcontextprotocol.io) (MCP) allows AI as
 
 After configuration, restart your AI client. Ask:
 
-> "What tools does llms-forge provide?"
+> "What tools does llm-energy provide?"
 
 The assistant should list the available extraction tools.
