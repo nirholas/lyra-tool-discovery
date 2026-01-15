@@ -1,4 +1,4 @@
-# LLMs Forge MCP Server
+# llm.energy MCP Server
 
 An MCP (Model Context Protocol) server that extracts documentation from websites with llms.txt support, making it easy for AI assistants to access and understand any documentation.
 
@@ -13,13 +13,13 @@ An MCP (Model Context Protocol) server that extracts documentation from websites
 ## Installation
 
 ```bash
-npm install @llms-forge/mcp-server
+npm install @llm-energy/mcp-server
 ```
 
 Or install globally:
 
 ```bash
-npm install -g @llms-forge/mcp-server
+npm install -g @llm-energy/mcp-server
 ```
 
 ## Usage with Claude Desktop
@@ -32,9 +32,9 @@ Add to your Claude Desktop configuration file:
 ```json
 {
   "mcpServers": {
-    "llms-forge": {
+    "llm-energy": {
       "command": "npx",
-      "args": ["-y", "@llms-forge/mcp-server"]
+      "args": ["-y", "@llm-energy/mcp-server"]
     }
   }
 }
@@ -45,8 +45,8 @@ Or if installed globally:
 ```json
 {
   "mcpServers": {
-    "llms-forge": {
-      "command": "llms-forge-mcp"
+    "llm-energy": {
+      "command": "llm-energy-mcp"
     }
   }
 }

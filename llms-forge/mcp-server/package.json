@@ -1,11 +1,11 @@
 {
-  "name": "@llms-forge/mcp-server",
+  "name": "@llm-energy/mcp-server",
   "version": "1.0.0",
-  "description": "MCP server for LLMs Forge - Extract documentation from any site with llms.txt support",
+  "description": "MCP server for llm.energy - Extract documentation from any site with llms.txt support",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "bin": {
-    "llms-forge-mcp": "./dist/index.js"
+    "llm-energy-mcp": "./dist/index.js"
   },
   "scripts": {
     "build": "tsc",

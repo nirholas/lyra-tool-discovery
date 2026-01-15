@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'LLMs Forge | Extract Documentation for AI Agents',
+  title: 'llm.energy | Extract Documentation for AI Agents',
   description: 'Fetch and organize llms.txt files into downloadable markdown documents ready for Claude, ChatGPT, and other AI assistants.',
   keywords: ['AI', 'LLM', 'documentation', 'llms.txt', 'markdown', 'Claude', 'ChatGPT'],
 }

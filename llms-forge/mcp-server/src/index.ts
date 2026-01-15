@@ -19,7 +19,7 @@ const extractionCache = new Map<string, ExtractionResult>()
 
 const server = new Server(
   {
-    name: 'llms-forge-mcp',
+    name: 'llm-energy-mcp',
     version: '1.0.0',
   },
   {
