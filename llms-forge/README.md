@@ -12,16 +12,20 @@ llm.energy fetches documentation from websites that support the llms.txt standar
 4. Results are presented with:
    - MCP server configuration
    - REST API endpoint
-   - Multiple download formats
+   - Multiple download formats (Markdown, JSON, YAML)
 
 ## Features
 
 - 🔍 Auto-detection of llms.txt or llms-full.txt
 - 📄 Split content into organized markdown sections
 - 📦 MCP Server for programmatic access
-- 🔌 REST API endpoint
+- 🔌 REST API endpoint with caching
 - 📥 Individual files or ZIP download
 - 🤖 Agent-ready output with AGENT-GUIDE.md
+- 📚 Site directory with known llms.txt sites
+- ⚡ Batch processing for multiple URLs
+- 🛡️ Rate limiting for API protection
+- 📊 Export to JSON, YAML, or Markdown
 
 ## Tech Stack
 
@@ -30,6 +34,7 @@ llm.energy fetches documentation from websites that support the llms.txt standar
 - Framer Motion
 - TSParticles
 - Lucide Icons
+- Vitest (testing)
 
 ## Running Locally
 
@@ -40,6 +45,25 @@ pnpm dev
 ```
 
 Open http://localhost:3001
+
+## Development
+
+```bash
+# Run tests
+pnpm test
+
+# Run tests with coverage
+pnpm test:coverage
+
+# Type check
+pnpm typecheck
+
+# Lint
+pnpm lint
+
+# Build
+pnpm build
+```
 
 ## MCP Server
 
@@ -56,6 +80,48 @@ Install the MCP server for programmatic access:
 }
 ```
 
+## API Endpoints
+
+### Extract Documentation
+```bash
+POST /api/extract
+Content-Type: application/json
+
+{ "url": "https://docs.example.com" }
+```
+
+### Validate URL
+```bash
+POST /api/validate
+Content-Type: application/json
+
+{ "url": "https://docs.example.com" }
+```
+
+### Batch Processing
+```bash
+POST /api/batch
+Content-Type: application/json
+
+{ "urls": ["https://docs.a.com", "https://docs.b.com"] }
+```
+
+## Project Structure
+
+```
+llms-forge/
+├── src/
+│   ├── app/           # Next.js pages and API routes
+│   ├── components/    # React components
+│   ├── lib/           # Utilities (cache, rate-limiter, parser)
+│   ├── types/         # TypeScript types
+│   └── __tests__/     # Unit tests
+├── packages/
+│   └── core/          # Shared parser, types, generators
+├── mcp-server/        # MCP server package
+└── docs-site/         # Documentation (MkDocs)
+```
+
 ## Links
 
 - Website: https://llm.energy
@@ -65,3 +131,4 @@ Install the MCP server for programmatic access:
 ---
 
 *Built by [nich](https://x.com/nichxbt)*
+
