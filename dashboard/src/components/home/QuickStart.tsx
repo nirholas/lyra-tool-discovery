@@ -26,7 +26,7 @@ lyra-discover discover --source github --query "mcp server"`;
   return (
     <section id="quickstart" className="py-24 relative overflow-hidden">
       {/* Background */}
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-violet-500/5 to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/[0.02] to-transparent" />
 
       <div className="container mx-auto px-4 relative z-10">
         <div className="max-w-4xl mx-auto">
@@ -56,7 +56,7 @@ lyra-discover discover --source github --query "mcp server"`;
               transition={{ duration: 0.5, delay: 0.1 }}
             >
               <div className="flex items-center gap-3 mb-4">
-                <div className="w-8 h-8 rounded-lg bg-violet-500/20 border border-violet-500/30 flex items-center justify-center text-sm font-bold text-violet-400">
+                <div className="w-8 h-8 rounded-lg bg-white/10 border border-white/20 flex items-center justify-center text-sm font-bold text-white">
                   1
                 </div>
                 <h3 className="text-lg font-semibold text-white">Install the CLI</h3>
@@ -72,7 +72,7 @@ lyra-discover discover --source github --query "mcp server"`;
               transition={{ duration: 0.5, delay: 0.2 }}
             >
               <div className="flex items-center gap-3 mb-4">
-                <div className="w-8 h-8 rounded-lg bg-cyan-500/20 border border-cyan-500/30 flex items-center justify-center text-sm font-bold text-cyan-400">
+                <div className="w-8 h-8 rounded-lg bg-white/10 border border-white/20 flex items-center justify-center text-sm font-bold text-white">
                   2
                 </div>
                 <h3 className="text-lg font-semibold text-white">Configure your AI provider</h3>
@@ -88,7 +88,7 @@ lyra-discover discover --source github --query "mcp server"`;
               transition={{ duration: 0.5, delay: 0.3 }}
             >
               <div className="flex items-center gap-3 mb-4">
-                <div className="w-8 h-8 rounded-lg bg-pink-500/20 border border-pink-500/30 flex items-center justify-center text-sm font-bold text-pink-400">
+                <div className="w-8 h-8 rounded-lg bg-white/10 border border-white/20 flex items-center justify-center text-sm font-bold text-white">
                   3
                 </div>
                 <h3 className="text-lg font-semibold text-white">Start discovering</h3>

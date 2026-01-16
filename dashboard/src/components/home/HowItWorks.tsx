@@ -9,42 +9,42 @@ const steps = [
     title: 'Discover',
     description: 'AI scans GitHub repositories and npm packages to find MCP-compatible servers and tools.',
     icon: Search,
-    color: 'violet',
+    color: 'light',
   },
   {
     number: 2,
     title: 'Analyze',
     description: 'Intelligent analysis determines the optimal plugin template based on code structure and patterns.',
     icon: Brain,
-    color: 'cyan',
+    color: 'medium',
   },
   {
     number: 3,
     title: 'Generate',
     description: 'Automatically creates ready-to-use plugin configurations for plugin.delivery ecosystem.',
     icon: Rocket,
-    color: 'pink',
+    color: 'dark',
   },
 ];
 
 const colorClasses = {
-  violet: {
-    bg: 'bg-violet-500/20',
-    border: 'border-violet-500/30',
-    text: 'text-violet-400',
-    glow: 'shadow-violet-500/20',
+  light: {
+    bg: 'bg-white/10',
+    border: 'border-white/20',
+    text: 'text-white',
+    glow: 'shadow-white/10',
   },
-  cyan: {
-    bg: 'bg-cyan-500/20',
-    border: 'border-cyan-500/30',
-    text: 'text-cyan-400',
-    glow: 'shadow-cyan-500/20',
+  medium: {
+    bg: 'bg-neutral-500/20',
+    border: 'border-neutral-500/30',
+    text: 'text-neutral-300',
+    glow: 'shadow-neutral-500/10',
   },
-  pink: {
-    bg: 'bg-pink-500/20',
-    border: 'border-pink-500/30',
-    text: 'text-pink-400',
-    glow: 'shadow-pink-500/20',
+  dark: {
+    bg: 'bg-neutral-700/30',
+    border: 'border-neutral-600/40',
+    text: 'text-neutral-400',
+    glow: 'shadow-neutral-600/10',
   },
 };
 
@@ -75,7 +75,7 @@ function HowItWorks() {
         <div className="max-w-4xl mx-auto">
           <div className="relative">
             {/* Connecting line */}
-            <div className="absolute left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-violet-500/50 via-cyan-500/50 to-pink-500/50 hidden md:block" />
+            <div className="absolute left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-white/30 via-neutral-500/30 to-neutral-700/30 hidden md:block" />
 
             {/* Steps */}
             <div className="space-y-12 md:space-y-24">

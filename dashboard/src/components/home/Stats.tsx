@@ -52,7 +52,7 @@ function Stats() {
     <section className="py-24 relative overflow-hidden">
       {/* Background */}
       <div className="absolute inset-0">
-        <div className="absolute inset-0 bg-gradient-to-r from-violet-500/10 via-cyan-500/10 to-violet-500/10" />
+        <div className="absolute inset-0 bg-gradient-to-r from-white/[0.02] via-neutral-500/5 to-white/[0.02]" />
         <div className="absolute inset-0 bg-grid opacity-20" />
       </div>
 

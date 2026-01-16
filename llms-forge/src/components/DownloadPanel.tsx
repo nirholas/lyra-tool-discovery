@@ -4,7 +4,9 @@ import { useState } from 'react'
 import { Download, FileText, FolderArchive, Code, Settings, Check, Loader2 } from 'lucide-react'
 import { createZipBundle, formatSize, getFileCount, calculateZipSize } from '@/lib/zip-builder'
 import { slugify } from '@/lib/parser'
+import { EXPORT_FORMATS, getExtensionForFormat, getMimeTypeForFormat } from '@/lib/exporters'
 import type { GeneratedOutputs } from '@/lib/output-generator'
+import type { ExportFormat } from '@/types'
 
 interface DownloadPanelProps {
   outputs: GeneratedOutputs
@@ -14,6 +16,7 @@ interface DownloadPanelProps {
 export default function DownloadPanel({ outputs, siteName }: DownloadPanelProps) {
   const [downloading, setDownloading] = useState<string | null>(null)
   const [downloadedFiles, setDownloadedFiles] = useState<Set<string>>(new Set())
+  const [exportFormat, setExportFormat] = useState<ExportFormat>('markdown')
 
   const downloadFile = (filename: string, content: string, mimeType: string = 'text/markdown') => {
     setDownloading(filename)
@@ -30,6 +33,56 @@ export default function DownloadPanel({ outputs, siteName }: DownloadPanelProps)
     
     setDownloadedFiles(prev => new Set(prev).add(filename))
     setDownloading(null)
+  }
+
+  // Download full document in selected format
+  const downloadFormatted = () => {
+    const ext = getExtensionForFormat(exportFormat)
+    const mimeType = getMimeTypeForFormat(exportFormat)
+    const baseFilename = slugify(siteName) || 'docs'
+    const filename = `${baseFilename}-full${ext}`
+    
+    let content: string
+    
+    if (exportFormat === 'json') {
+      content = JSON.stringify({
+        meta: {
+          source: siteName,
+          extractedAt: new Date().toISOString(),
+          version: '1.0',
+        },
+        sections: outputs.sections.map(s => ({
+          title: s.filename.replace(/^\d+-/, '').replace(/\.md$/, ''),
+          content: s.content,
+          size: s.size,
+        })),
+        fullDocument: outputs.fullDocument.content,
+      }, null, 2)
+    } else if (exportFormat === 'yaml') {
+      // Simple YAML serialization
+      const lines = [
+        'meta:',
+        `  source: "${siteName}"`,
+        `  extractedAt: "${new Date().toISOString()}"`,
+        '  version: "1.0"',
+        'sections:',
+      ]
+      for (const section of outputs.sections) {
+        const title = section.filename.replace(/^\d+-/, '').replace(/\.md$/, '')
+        lines.push(`  - title: "${title}"`)
+        lines.push(`    content: |`)
+        const contentLines = section.content.split('\n')
+        for (const line of contentLines) {
+          lines.push(`      ${line}`)
+        }
+      }
+      content = lines.join('\n')
+    } else {
+      // Markdown - use full document as-is
+      content = outputs.fullDocument.content
+    }
+    
+    downloadFile(filename, content, mimeType)
   }
 
   const downloadZip = async () => {
@@ -66,6 +119,37 @@ export default function DownloadPanel({ outputs, siteName }: DownloadPanelProps)
         <Download className="w-5 h-5" />
         Download Files
       </h3>
+
+      {/* Format Selector */}
+      <div className="mb-4 p-3 rounded-lg bg-black/50 border border-neutral-800">
+        <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+          <label htmlFor="format-select" className="text-sm text-neutral-400 whitespace-nowrap">
+            Export format:
+          </label>
+          <div className="flex items-center gap-2 flex-1">
+            <select
+              id="format-select"
+              value={exportFormat}
+              onChange={(e) => setExportFormat(e.target.value as ExportFormat)}
+              className="flex-1 px-3 py-2 bg-black border border-neutral-700 rounded-lg text-white text-sm focus:border-neutral-500 focus:outline-none"
+            >
+              {EXPORT_FORMATS.map((format) => (
+                <option key={format.value} value={format.value}>
+                  {format.label} ({format.extension})
+                </option>
+              ))}
+            </select>
+            <button
+              onClick={downloadFormatted}
+              disabled={isDownloading('formatted')}
+              className="px-4 py-2 bg-white/10 border border-neutral-700 rounded-lg text-white text-sm hover:bg-white/20 transition-colors disabled:opacity-50 whitespace-nowrap"
+            >
+              <Download className="w-4 h-4 inline mr-1.5" />
+              {exportFormat.toUpperCase()}
+            </button>
+          </div>
+        </div>
+      </div>
 
       {/* Quick Download - ZIP */}
       <button

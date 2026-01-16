@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { discoverLlmsTxt } from '@/lib/url-discovery'
 
 interface SplitDocument {
   filename: string
@@ -55,9 +56,14 @@ function splitIntoPages(content: string): SplitDocument[] {
 /**
  * GET - Split and return as JSON with all files
  * Usage: /api/split?url=docs.axiom.trade
+ * 
+ * Query params:
+ * - url: The domain to extract from (required)
+ * - discover: If "true", scan for llms.txt across common doc URL patterns (default: true)
  */
 export async function GET(request: NextRequest) {
   const url = request.nextUrl.searchParams.get('url')
+  const shouldDiscover = request.nextUrl.searchParams.get('discover') !== 'false'
   
   if (!url) {
     return NextResponse.json(
@@ -74,39 +80,68 @@ export async function GET(request: NextRequest) {
     }
 
     const urlObj = new URL(targetUrl)
-    const baseUrl = `${urlObj.protocol}//${urlObj.host}`
+    const baseUrl = `${urlObj.protocol}//${urlObj.host}${urlObj.pathname.replace(/\/$/, '')}`
     
     // Fetch llms-full.txt or llms.txt
     let content: string | null = null
     let sourceUrl: string = ''
+    let discoveredUrl: string | null = null
     
+    // First try the exact URL provided
     for (const tryUrl of [`${baseUrl}/llms-full.txt`, `${baseUrl}/llms.txt`]) {
       try {
         const response = await fetch(tryUrl, {
           headers: { 'User-Agent': 'llms-forge/1.0' },
         })
         if (response.ok) {
-          content = await response.text()
-          sourceUrl = tryUrl
-          break
+          const text = await response.text()
+          // Verify it's not an HTML error page
+          if (text && !text.trim().toLowerCase().startsWith('<!doctype') && !text.trim().toLowerCase().startsWith('<html')) {
+            content = text
+            sourceUrl = tryUrl
+            break
+          }
         }
       } catch { continue }
     }
     
+    // If not found and discovery is enabled, scan for llms.txt
+    if (!content && shouldDiscover) {
+      const discovery = await discoverLlmsTxt(targetUrl, { timeoutMs: 20000 })
+      
+      if (discovery.found && discovery.llmsTxtUrl) {
+        try {
+          const response = await fetch(discovery.llmsTxtUrl, {
+            headers: { 'User-Agent': 'llms-forge/1.0' },
+          })
+          if (response.ok) {
+            content = await response.text()
+            sourceUrl = discovery.llmsTxtUrl
+            discoveredUrl = discovery.url
+          }
+        } catch { /* continue to error */ }
+      }
+    }
+    
     if (!content) {
       return NextResponse.json(
-        { error: `No llms.txt found at ${urlObj.host}` },
+        { 
+          error: `No llms.txt found for ${urlObj.host}`,
+          suggestion: 'Try a different URL or check if this site supports llms.txt',
+          triedDiscovery: shouldDiscover,
+        },
         { status: 404 }
       )
     }
     
     // Split into pages
     const documents = splitIntoPages(content)
-    const siteName = urlObj.host.replace('www.', '').split('.')[0]
+    const siteName = urlObj.host.replace('www.', '').replace('docs.', '').split('.')[0]
     
     return NextResponse.json({
       siteName,
       sourceUrl,
+      discoveredFrom: discoveredUrl,
       totalPages: documents.length,
       documents,
       // Also include a manifest/index
@@ -128,12 +163,12 @@ export async function GET(request: NextRequest) {
 
 /**
  * POST - Split and return as downloadable ZIP
- * Body: { url: string }
+ * Body: { url: string, discover?: boolean }
  */
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
-    const { url } = body
+    const { url, discover = true } = body
     
     if (!url) {
       return NextResponse.json(
@@ -149,35 +184,59 @@ export async function POST(request: NextRequest) {
     }
 
     const urlObj = new URL(targetUrl)
-    const baseUrl = `${urlObj.protocol}//${urlObj.host}`
+    const baseUrl = `${urlObj.protocol}//${urlObj.host}${urlObj.pathname.replace(/\/$/, '')}`
     
     // Fetch llms-full.txt or llms.txt
     let content: string | null = null
     let sourceUrl: string = ''
     
+    // First try the exact URL provided
     for (const tryUrl of [`${baseUrl}/llms-full.txt`, `${baseUrl}/llms.txt`]) {
       try {
         const response = await fetch(tryUrl, {
           headers: { 'User-Agent': 'llms-forge/1.0' },
         })
         if (response.ok) {
-          content = await response.text()
-          sourceUrl = tryUrl
-          break
+          const text = await response.text()
+          if (text && !text.trim().toLowerCase().startsWith('<!doctype') && !text.trim().toLowerCase().startsWith('<html')) {
+            content = text
+            sourceUrl = tryUrl
+            break
+          }
         }
       } catch { continue }
     }
     
+    // If not found and discovery is enabled, scan for llms.txt
+    if (!content && discover) {
+      const discovery = await discoverLlmsTxt(targetUrl, { timeoutMs: 20000 })
+      
+      if (discovery.found && discovery.llmsTxtUrl) {
+        try {
+          const response = await fetch(discovery.llmsTxtUrl, {
+            headers: { 'User-Agent': 'llms-forge/1.0' },
+          })
+          if (response.ok) {
+            content = await response.text()
+            sourceUrl = discovery.llmsTxtUrl
+          }
+        } catch { /* continue to error */ }
+      }
+    }
+    
     if (!content) {
       return NextResponse.json(
-        { error: `No llms.txt found at ${urlObj.host}` },
+        { 
+          error: `No llms.txt found for ${urlObj.host}`,
+          suggestion: 'Try a different URL or check if this site supports llms.txt',
+        },
         { status: 404 }
       )
     }
     
     // Split into pages
     const documents = splitIntoPages(content)
-    const siteName = urlObj.host.replace('www.', '').split('.')[0]
+    const siteName = urlObj.host.replace('www.', '').replace('docs.', '').split('.')[0]
     
     // Create a simple TAR-like format (concatenated files with headers)
     // Or return as a multi-part response that can be easily parsed
