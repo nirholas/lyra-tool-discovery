@@ -1,10 +1,10 @@
 {
-  "/api/analyze/route": "/api/analyze",
-  "/api/templates/route": "/api/templates",
   "/_not-found/page": "/_not-found",
+  "/api/templates/route": "/api/templates",
+  "/api/analyze/route": "/api/analyze",
   "/robots.txt/route": "/robots.txt",
   "/sitemap.xml/route": "/sitemap.xml",
-  "/discover/page": "/discover",
   "/page": "/",
+  "/discover/page": "/discover",
   "/templates/page": "/templates"
 }

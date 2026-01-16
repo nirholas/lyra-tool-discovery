@@ -49,9 +49,9 @@ function Header() {
             <motion.div
               whileHover={{ rotate: 360 }}
               transition={{ duration: 0.5 }}
-              className="w-8 h-8 rounded-lg bg-gradient-to-br from-violet-500 to-cyan-500 flex items-center justify-center"
+              className="w-8 h-8 rounded-lg bg-white flex items-center justify-center"
             >
-              <span className="text-white font-bold text-lg">L</span>
+              <span className="text-black font-bold text-lg">L</span>
             </motion.div>
             <span className="text-xl font-bold gradient-text">Lyra</span>
           </Link>
@@ -105,7 +105,7 @@ function Header() {
                     exit={{ rotate: -90, opacity: 0 }}
                     transition={{ duration: 0.2 }}
                   >
-                    <Moon size={18} className="text-violet-400" />
+                    <Moon size={18} className="text-white/60" />
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -166,7 +166,7 @@ function Header() {
                     {isDark ? (
                       <Sun size={18} className="text-yellow-400" />
                     ) : (
-                      <Moon size={18} className="text-violet-400" />
+                      <Moon size={18} className="text-white/60" />
                     )}
                   </button>
                   <Link href={SOCIAL_LINKS.github} target="_blank" rel="noopener noreferrer">

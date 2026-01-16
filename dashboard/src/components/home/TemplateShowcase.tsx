@@ -30,7 +30,7 @@ function TemplateShowcase() {
   return (
     <section id="templates" className="py-24 relative overflow-hidden">
       {/* Background */}
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-cyan-500/5 to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/[0.02] to-transparent" />
 
       <div className="container mx-auto px-4 relative z-10">
         {/* Section header */}
@@ -64,7 +64,7 @@ function TemplateShowcase() {
               className={cn(
                 'px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200',
                 activeFilter === tab.id
-                  ? 'bg-violet-500/20 text-violet-300 border border-violet-500/30'
+                  ? 'bg-white/15 text-white border border-white/20'
                   : 'bg-white/5 text-white/60 hover:text-white hover:bg-white/10 border border-transparent'
               )}
             >
@@ -146,7 +146,7 @@ function TemplateShowcase() {
                                   key={i}
                                   className="text-xs text-muted-foreground flex items-start gap-2"
                                 >
-                                  <span className="text-violet-400 mt-0.5">•</span>
+                                  <span className="text-white/50 mt-0.5">•</span>
                                   {criterion}
                                 </li>
                               ))}

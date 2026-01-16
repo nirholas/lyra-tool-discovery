@@ -33,15 +33,15 @@ function Footer() {
   return (
     <footer className="relative border-t border-white/10 bg-background">
       {/* Gradient decoration */}
-      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-violet-500/50 to-transparent" />
+      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent" />
 
       <div className="container mx-auto px-4 py-12 lg:py-16">
         <div className="grid grid-cols-2 gap-8 md:grid-cols-4 lg:gap-12">
           {/* Brand Column */}
           <div className="col-span-2 md:col-span-1">
             <Link href="/" className="flex items-center gap-2 mb-4">
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-violet-500 to-cyan-500 flex items-center justify-center">
-                <span className="text-white font-bold text-lg">L</span>
+              <div className="w-8 h-8 rounded-lg bg-white flex items-center justify-center">
+                <span className="text-black font-bold text-lg">L</span>
               </div>
               <span className="text-xl font-bold gradient-text">Lyra</span>
             </Link>

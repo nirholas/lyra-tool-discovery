@@ -16,7 +16,7 @@ function Hero() {
       
       {/* Floating decorative elements */}
       <motion.div
-        className="absolute top-1/4 left-[10%] w-64 h-64 rounded-full bg-violet-500/20 blur-3xl"
+        className="absolute top-1/4 left-[10%] w-64 h-64 rounded-full bg-white/5 blur-3xl"
         animate={{
           y: [0, -30, 0],
           scale: [1, 1.1, 1],
@@ -28,7 +28,7 @@ function Hero() {
         }}
       />
       <motion.div
-        className="absolute bottom-1/4 right-[10%] w-80 h-80 rounded-full bg-cyan-500/20 blur-3xl"
+        className="absolute bottom-1/4 right-[10%] w-80 h-80 rounded-full bg-neutral-500/10 blur-3xl"
         animate={{
           y: [0, 30, 0],
           scale: [1.1, 1, 1.1],
@@ -40,7 +40,7 @@ function Hero() {
         }}
       />
       <motion.div
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-purple-500/10 blur-3xl"
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-neutral-700/10 blur-3xl"
         animate={{
           rotate: [0, 360],
         }}
@@ -59,10 +59,10 @@ function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-violet-500/10 border border-violet-500/20 mb-8"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 mb-8"
           >
-            <Sparkles size={16} className="text-violet-400" />
-            <span className="text-sm font-medium text-violet-300">
+            <Sparkles size={16} className="text-white/60" />
+            <span className="text-sm font-medium text-white/80">
               AI-Powered MCP Tool Discovery
             </span>
           </motion.div>
@@ -118,7 +118,7 @@ function Hero() {
           >
             <div className="relative">
               {/* Glow effect */}
-              <div className="absolute -inset-1 bg-gradient-to-r from-violet-500/20 via-cyan-500/20 to-violet-500/20 rounded-2xl blur-xl opacity-50" />
+              <div className="absolute -inset-1 bg-gradient-to-r from-white/5 via-neutral-500/10 to-white/5 rounded-2xl blur-xl opacity-50" />
               
               <div className="relative glass rounded-2xl overflow-hidden">
                 {/* Terminal header */}
@@ -159,7 +159,7 @@ function Hero() {
                         <motion.span
                           animate={{ rotate: 360 }}
                           transition={{ duration: 1, repeat: 3, ease: 'linear' }}
-                          className="text-cyan-400"
+                          className="text-white/60"
                         >
                           ◌
                         </motion.span>
@@ -174,8 +174,8 @@ function Hero() {
                       className="space-y-1"
                     >
                       <div className="text-green-400">✓ Template detected: mcp-stdio</div>
-                      <div className="text-cyan-400">✓ Confidence: 94%</div>
-                      <div className="text-violet-400">✓ Config generated successfully</div>
+                      <div className="text-white/70">✓ Confidence: 94%</div>
+                      <div className="text-white/60">✓ Config generated successfully</div>
                     </motion.div>
                   </div>
                 </div>
