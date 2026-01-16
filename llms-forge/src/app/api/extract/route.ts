@@ -1,19 +1,34 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { extract, type ExtractionProgress, type ExtractionResult as NewExtractionResult } from '@/lib/extractor'
-import { parseLlmsContent, extractSiteName, slugify, estimateTokens } from '@/lib/parser'
-import { generateAllDocuments } from '@/lib/generator'
 import { ExtractionResult, Document } from '@/types'
 
 /**
- * POST endpoint - Direct extraction (non-streaming)
- * Returns complete result when extraction finishes
+ * Simple helper to estimate tokens (roughly 4 chars per token)
+ */
+function estimateTokens(text: string): number {
+  return Math.ceil(text.length / 4)
+}
+
+/**
+ * Simple helper to create a slug from text
+ */
+function slugify(text: string): string {
+  return text
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '')
+    .slice(0, 50)
+}
+
+/**
+ * POST endpoint - Simple extraction
+ * Fetches llms-full.txt or llms.txt from a domain and returns the content
  */
 export async function POST(request: NextRequest) {
   const startTime = Date.now()
   
   try {
     const body = await request.json()
-    const { url, useNewExtractor = true } = body
+    const { url } = body
     
     if (!url) {
       return NextResponse.json(
@@ -22,62 +37,7 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Use the new smart extractor by default
-    if (useNewExtractor) {
-      const result = await extract({ url })
-      
-      if (!result.success) {
-        return NextResponse.json(
-          { error: result.error || 'Extraction failed' },
-          { status: 500 }
-        )
-      }
-      
-      // Transform to match existing API contract
-      const documents: Document[] = result.documents.map((doc, index) => ({
-        filename: `${String(index + 1).padStart(2, '0')}-${slugify(doc.title)}.md`,
-        title: doc.title,
-        content: doc.content,
-        tokens: estimateTokens(doc.content),
-      }))
-      
-      const fullDocument: Document = {
-        filename: 'llms-full.md',
-        title: `${result.source.siteName} Documentation`,
-        content: result.fullDocument,
-        tokens: estimateTokens(result.fullDocument),
-      }
-      
-      const agentGuide: Document = {
-        filename: 'AGENT-GUIDE.md',
-        title: 'Agent Guide',
-        content: result.agentPrompt,
-        tokens: estimateTokens(result.agentPrompt),
-      }
-      
-      const response: ExtractionResult = {
-        url,
-        sourceUrl: result.source.sourceUrl,
-        rawContent: result.fullDocument,
-        documents,
-        fullDocument,
-        agentGuide,
-        stats: {
-          totalTokens: result.stats.totalTokens,
-          documentCount: result.stats.totalDocuments,
-          processingTime: result.stats.extractionTime,
-        },
-      }
-      
-      return NextResponse.json({
-        ...response,
-        // Additional data from new extractor
-        strategy: result.strategy,
-        mcpConfig: result.mcpConfig,
-      })
-    }
-
-    // Legacy extractor path (llms.txt only)
+    // Simple extraction - just fetch llms-full.txt or llms.txt
     let targetUrl = url.trim()
     if (!targetUrl.startsWith('http://') && !targetUrl.startsWith('https://')) {
       targetUrl = `https://${targetUrl}`
@@ -128,20 +88,51 @@ export async function POST(request: NextRequest) {
       )
     }
     
-    const parsedDocuments = parseLlmsContent(content)
+    // Simple parsing - split by ## headers
+    const sections = content.split(/^## /m)
+    const documents: Document[] = []
     
-    if (parsedDocuments.length === 0) {
-      return NextResponse.json(
-        { error: 'No content could be parsed from the documentation' },
-        { status: 422 }
-      )
+    for (let i = 0; i < sections.length; i++) {
+      const section = sections[i].trim()
+      if (!section || section.length < 20) continue
+      
+      const lines = section.split('\n')
+      const title = i === 0 ? 'Introduction' : (lines[0] || `Section ${i}`)
+      const sectionContent = i === 0 ? section : `## ${lines[0]}\n\n${lines.slice(1).join('\n').trim()}`
+      
+      documents.push({
+        filename: `${String(documents.length + 1).padStart(2, '0')}-${slugify(title)}.md`,
+        title,
+        content: sectionContent,
+        tokens: estimateTokens(sectionContent),
+      })
     }
     
-    const { documents, fullDocument, agentGuide } = generateAllDocuments(
-      parsedDocuments,
-      content,
-      sourceUrl
-    )
+    // If no sections, treat whole content as one doc
+    if (documents.length === 0 && content.length > 20) {
+      documents.push({
+        filename: '01-documentation.md',
+        title: 'Documentation',
+        content: content,
+        tokens: estimateTokens(content),
+      })
+    }
+    
+    const siteName = urlObj.host.replace('www.', '').split('.')[0]
+    
+    const fullDocument: Document = {
+      filename: 'docs.md',
+      title: `${siteName} Documentation`,
+      content: content,
+      tokens: estimateTokens(content),
+    }
+    
+    const agentGuide: Document = {
+      filename: 'AGENT-GUIDE.md',
+      title: 'Agent Guide',
+      content: `# ${siteName} Documentation\n\nExtracted from ${sourceUrl}\n\nUse this documentation to answer questions about ${siteName}.`,
+      tokens: estimateTokens(`# ${siteName} Documentation`),
+    }
     
     const totalTokens = documents.reduce((sum, doc) => sum + doc.tokens, 0) 
       + fullDocument.tokens 
@@ -175,59 +166,21 @@ export async function POST(request: NextRequest) {
 }
 
 /**
- * GET endpoint - Streaming extraction with Server-Sent Events
- * Returns progress updates in real-time
+ * GET endpoint - Simple extraction (same as POST but with query param)
  */
 export async function GET(request: NextRequest) {
   const url = request.nextUrl.searchParams.get('url')
   
   if (!url) {
     return NextResponse.json(
-      { error: 'URL is required' },
+      { error: 'URL is required as query parameter' },
       { status: 400 }
     )
   }
 
-  const encoder = new TextEncoder()
+  // Reuse POST logic by creating a new request
+  const postRequest = {
+    json: async () => ({ url }),
+  } as NextRequest
   
-  const stream = new ReadableStream({
-    async start(controller) {
-      let finalResult: NewExtractionResult | null = null
-      
-      try {
-        finalResult = await extract({
-          url,
-          onProgress: (progress: ExtractionProgress) => {
-            const data = JSON.stringify(progress)
-            controller.enqueue(encoder.encode(`data: ${data}\n\n`))
-          },
-        })
-        
-        // Send final result
-        const resultData = JSON.stringify({
-          type: 'result',
-          data: finalResult,
-        })
-        controller.enqueue(encoder.encode(`data: ${resultData}\n\n`))
-        
-      } catch (error) {
-        const errorData = JSON.stringify({
-          type: 'error',
-          error: error instanceof Error ? error.message : 'Extraction failed',
-        })
-        controller.enqueue(encoder.encode(`data: ${errorData}\n\n`))
-      } finally {
-        controller.close()
-      }
-    },
-  })
-
-  return new Response(stream, {
-    headers: {
-      'Content-Type': 'text/event-stream',
-      'Cache-Control': 'no-cache, no-transform',
-      'Connection': 'keep-alive',
-      'X-Accel-Buffering': 'no', // Disable nginx buffering
-    },
-  })
-}
+  return POST(postRequest)}
