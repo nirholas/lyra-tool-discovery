@@ -6,28 +6,28 @@ import { FEATURES } from '@/lib/constants';
 import { Card, CardContent } from '@/components/ui/Card';
 
 const colorClasses = {
-  violet: 'from-violet-500/20 to-violet-500/5 group-hover:from-violet-500/30',
-  cyan: 'from-cyan-500/20 to-cyan-500/5 group-hover:from-cyan-500/30',
-  pink: 'from-pink-500/20 to-pink-500/5 group-hover:from-pink-500/30',
-  green: 'from-green-500/20 to-green-500/5 group-hover:from-green-500/30',
-  orange: 'from-orange-500/20 to-orange-500/5 group-hover:from-orange-500/30',
-  blue: 'from-blue-500/20 to-blue-500/5 group-hover:from-blue-500/30',
+  violet: 'from-white/10 to-white/[0.02] group-hover:from-white/15',
+  cyan: 'from-neutral-400/15 to-neutral-400/[0.02] group-hover:from-neutral-400/20',
+  pink: 'from-neutral-500/15 to-neutral-500/[0.02] group-hover:from-neutral-500/20',
+  green: 'from-white/8 to-white/[0.02] group-hover:from-white/12',
+  orange: 'from-neutral-600/15 to-neutral-600/[0.02] group-hover:from-neutral-600/20',
+  blue: 'from-neutral-300/10 to-neutral-300/[0.02] group-hover:from-neutral-300/15',
 };
 
 const iconColorClasses = {
-  violet: 'bg-violet-500/20 text-violet-300',
-  cyan: 'bg-cyan-500/20 text-cyan-300',
-  pink: 'bg-pink-500/20 text-pink-300',
-  green: 'bg-green-500/20 text-green-300',
-  orange: 'bg-orange-500/20 text-orange-300',
-  blue: 'bg-blue-500/20 text-blue-300',
+  violet: 'bg-white/15 text-white',
+  cyan: 'bg-neutral-400/20 text-neutral-300',
+  pink: 'bg-neutral-500/20 text-neutral-300',
+  green: 'bg-white/10 text-white/80',
+  orange: 'bg-neutral-600/20 text-neutral-400',
+  blue: 'bg-neutral-300/15 text-neutral-200',
 };
 
 function Features() {
   return (
     <section id="features" className="py-24 relative overflow-hidden">
       {/* Background */}
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-violet-500/5 to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/[0.02] to-transparent" />
 
       <div className="container mx-auto px-4 relative z-10">
         {/* Section header */}

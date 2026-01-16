@@ -1,10 +1,10 @@
 {
-  "/api/analyze/route": "app/api/analyze/route.js",
-  "/api/templates/route": "app/api/templates/route.js",
   "/_not-found/page": "app/_not-found/page.js",
+  "/api/templates/route": "app/api/templates/route.js",
+  "/api/analyze/route": "app/api/analyze/route.js",
   "/robots.txt/route": "app/robots.txt/route.js",
   "/sitemap.xml/route": "app/sitemap.xml/route.js",
-  "/discover/page": "app/discover/page.js",
   "/page": "app/page.js",
+  "/discover/page": "app/discover/page.js",
   "/templates/page": "app/templates/page.js"
 }

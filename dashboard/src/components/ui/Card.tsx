@@ -41,7 +41,7 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
         className={cn(
           'rounded-2xl overflow-hidden',
           'transition-all duration-300',
-          hover && 'hover:shadow-lg hover:shadow-violet-500/10 hover:border-violet-500/30',
+          hover && 'hover:shadow-lg hover:shadow-white/5 hover:border-white/20',
           variantStyles[variant],
           className
         )}

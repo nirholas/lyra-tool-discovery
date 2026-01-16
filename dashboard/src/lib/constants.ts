@@ -186,6 +186,7 @@ export const NAV_LINKS: NavLink[] = [
   { href: '/discover', label: 'Discover' },
   { href: '/templates', label: 'Templates' },
   { href: '/docs', label: 'Docs' },
+  { href: 'https://llm.energy', label: 'LLM.energy', external: true },
   { href: 'https://github.com/nirholas/lyra-tool-discovery', label: 'GitHub', external: true },
 ];
 
@@ -194,6 +195,7 @@ export const SOCIAL_LINKS = {
   github: 'https://github.com/nirholas/lyra-tool-discovery',
   discord: '#', // placeholder
   twitter: '#', // placeholder
+  llmEnergy: 'https://llm.energy',
 };
 
 // Homepage features
@@ -245,10 +247,10 @@ export const STATS: Stat[] = [
 
 // Template type colors
 export const TEMPLATE_TYPE_COLORS: Record<string, string> = {
-  mcp: 'bg-violet-500/20 text-violet-300 border-violet-500/30',
-  default: 'bg-cyan-500/20 text-cyan-300 border-cyan-500/30',
-  openapi: 'bg-green-500/20 text-green-300 border-green-500/30',
-  settings: 'bg-orange-500/20 text-orange-300 border-orange-500/30',
-  standalone: 'bg-pink-500/20 text-pink-300 border-pink-500/30',
-  markdown: 'bg-blue-500/20 text-blue-300 border-blue-500/30',
+  mcp: 'bg-white/15 text-white border-white/20',
+  default: 'bg-neutral-500/20 text-neutral-300 border-neutral-500/30',
+  openapi: 'bg-neutral-600/20 text-neutral-300 border-neutral-600/30',
+  settings: 'bg-neutral-700/30 text-neutral-400 border-neutral-700/40',
+  standalone: 'bg-white/10 text-white/70 border-white/15',
+  markdown: 'bg-neutral-400/20 text-neutral-200 border-neutral-400/30',
 };

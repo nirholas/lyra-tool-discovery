@@ -92,9 +92,9 @@ export default function DiscoverPage() {
           transition={{ duration: 0.5 }}
           className="max-w-3xl mx-auto text-center"
         >
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-violet-500/10 border border-violet-500/20 mb-6">
-            <Sparkles size={16} className="text-violet-400" />
-            <span className="text-sm font-medium text-violet-300">Interactive Demo</span>
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 mb-6">
+            <Sparkles size={16} className="text-white/60" />
+            <span className="text-sm font-medium text-white/80">Interactive Demo</span>
           </div>
           <h1 className="text-headline mb-4">
             <span className="gradient-text">Discover</span> MCP Tools
@@ -123,7 +123,7 @@ export default function DiscoverPage() {
                   className={cn(
                     'flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all',
                     inputType === 'github'
-                      ? 'bg-violet-500/20 text-violet-300 border border-violet-500/30'
+                      ? 'bg-white/15 text-white border border-white/20'
                       : 'bg-white/5 text-white/60 hover:text-white hover:bg-white/10'
                   )}
                 >
@@ -135,7 +135,7 @@ export default function DiscoverPage() {
                   className={cn(
                     'flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all',
                     inputType === 'npm'
-                      ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/30'
+                      ? 'bg-white/15 text-white border border-white/20'
                       : 'bg-white/5 text-white/60 hover:text-white hover:bg-white/10'
                   )}
                 >
@@ -162,7 +162,7 @@ export default function DiscoverPage() {
                       'w-full pl-12 pr-4 py-3 rounded-xl',
                       'bg-white/5 border border-white/10',
                       'text-white placeholder:text-muted-foreground',
-                      'focus:outline-none focus:ring-2 focus:ring-violet-500/50 focus:border-transparent',
+                      'focus:outline-none focus:ring-2 focus:ring-white/30 focus:border-transparent',
                       'transition-all duration-200'
                     )}
                   />
@@ -184,7 +184,7 @@ export default function DiscoverPage() {
                     setInputType('github');
                     setInputValue('modelcontextprotocol/servers');
                   }}
-                  className="text-violet-400 hover:text-violet-300 transition-colors"
+                  className="text-white/80 hover:text-white transition-colors underline underline-offset-2"
                 >
                   modelcontextprotocol/servers
                 </button>
@@ -194,7 +194,7 @@ export default function DiscoverPage() {
                     setInputType('npm');
                     setInputValue('@modelcontextprotocol/server-filesystem');
                   }}
-                  className="text-cyan-400 hover:text-cyan-300 transition-colors"
+                  className="text-white/80 hover:text-white transition-colors underline underline-offset-2"
                 >
                   @modelcontextprotocol/server-filesystem
                 </button>
@@ -224,7 +224,7 @@ export default function DiscoverPage() {
                       transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
                       className="inline-block mb-4"
                     >
-                      <Loader2 size={40} className="text-violet-400" />
+                      <Loader2 size={40} className="text-white" />
                     </motion.div>
                     <h3 className="text-lg font-semibold text-white mb-2">Analyzing...</h3>
                     <p className="text-muted-foreground">
@@ -243,7 +243,7 @@ export default function DiscoverPage() {
                             <motion.div
                               animate={{ opacity: [0.5, 1, 0.5] }}
                               transition={{ duration: 1, repeat: Infinity }}
-                              className="w-1.5 h-1.5 rounded-full bg-violet-400"
+                              className="w-1.5 h-1.5 rounded-full bg-white"
                             />
                             {step}
                           </motion.div>
@@ -342,8 +342,8 @@ export default function DiscoverPage() {
                     </div>
 
                     {/* Note */}
-                    <div className="p-4 rounded-xl bg-violet-500/10 border border-violet-500/20">
-                      <p className="text-sm text-violet-300">
+                    <div className="p-4 rounded-xl bg-white/5 border border-white/10">
+                      <p className="text-sm text-white/70">
                         <strong>Note:</strong> This is a demo preview. For full functionality including
                         real AI analysis and pipeline integration, use the CLI:
                       </p>

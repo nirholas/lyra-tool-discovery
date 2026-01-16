@@ -72,7 +72,7 @@ export default function UrlInput({ onSubmit }: UrlInputProps) {
               onChange={handleChange}
               onFocus={() => setIsFocused(true)}
               onBlur={() => setIsFocused(false)}
-              placeholder="Enter any website URL"
+              placeholder="Enter any domain (e.g., stripe.com, lighter.xyz)"
               aria-label="Website URL"
               aria-describedby={error ? 'url-error' : undefined}
               aria-invalid={error ? 'true' : 'false'}
