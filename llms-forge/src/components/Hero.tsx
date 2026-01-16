@@ -6,10 +6,10 @@ import { useRouter } from 'next/navigation'
 import UrlInput from './UrlInput'
 
 const QUICK_TRY = [
-  { name: 'Next.js', url: 'https://nextjs.org/docs' },
-  { name: 'Vercel', url: 'https://vercel.com/docs' },
-  { name: 'Stripe', url: 'https://stripe.com/docs' },
-  { name: 'Tailwind', url: 'https://tailwindcss.com/docs' },
+  { name: 'Axiom', url: 'https://docs.axiom.trade' },
+  { name: 'Mintlify', url: 'https://mintlify.com' },
+  { name: 'Cursor', url: 'https://cursor.com' },
+  { name: 'Anthropic', url: 'https://docs.anthropic.com' },
 ]
 
 export default function Hero() {

@@ -120,13 +120,13 @@ async function analyzeGitHubRepo(owner: string, repo: string): Promise<AnalysisR
       .catch(() => null)
   ]);
 
-  const hasMCP = repoData.topics?.includes('mcp') || 
+  const hasMCP = !!(repoData.topics?.includes('mcp') || 
                  repoData.name.toLowerCase().includes('mcp') ||
                  repoData.description?.toLowerCase().includes('mcp') ||
-                 packageJsonContent?.dependencies?.['@modelcontextprotocol/sdk'];
+                 packageJsonContent?.dependencies?.['@modelcontextprotocol/sdk']);
 
-  const hasOpenAPI = readmeContent?.toLowerCase().includes('openapi') ||
-                     readmeContent?.toLowerCase().includes('swagger');
+  const hasOpenAPI = !!(readmeContent?.toLowerCase().includes('openapi') ||
+                        readmeContent?.toLowerCase().includes('swagger'));
 
   const { template, confidence } = detectTemplate({
     name: repoData.name,
