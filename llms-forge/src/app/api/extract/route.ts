@@ -1,5 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { ExtractionResult, Document } from '@/types'
+import { ExtractionResult, Document, ExportFormat } from '@/types'
+import { getExtractionCache, normalizeUrlKey } from '@/lib/cache'
+import { getRateLimiter, getClientIp, createRateLimitResponse } from '@/lib/rate-limiter'
+import { exportToFormat, getMimeTypeForFormat, getFilenameForFormat } from '@/lib/exporters'
 
 /**
  * Simple helper to estimate tokens (roughly 4 chars per token)
@@ -20,11 +23,40 @@ function slugify(text: string): string {
 }
 
 /**
+ * Add rate limit and cache headers to response
+ */
+function addResponseHeaders(
+  headers: Record<string, string>,
+  rateLimitResult: { limit: number; remaining: number; resetAt: number },
+  cacheStatus: 'HIT' | 'MISS',
+  cacheTtl?: number
+): Record<string, string> {
+  return {
+    ...headers,
+    'X-Cache': cacheStatus,
+    'X-Cache-TTL': cacheTtl !== undefined ? String(cacheTtl) : '0',
+    'X-RateLimit-Limit': String(rateLimitResult.limit),
+    'X-RateLimit-Remaining': String(rateLimitResult.remaining),
+    'X-RateLimit-Reset': String(rateLimitResult.resetAt),
+    'Cache-Control': 'public, max-age=300', // 5 minutes
+  }
+}
+
+/**
  * POST endpoint - Simple extraction
  * Fetches llms-full.txt or llms.txt from a domain and returns the content
  */
 export async function POST(request: NextRequest) {
   const startTime = Date.now()
+  
+  // Apply rate limiting
+  const rateLimiter = getRateLimiter()
+  const clientIp = getClientIp(request)
+  const rateLimitResult = rateLimiter.checkAndRecord(clientIp)
+
+  if (!rateLimitResult.allowed) {
+    return createRateLimitResponse(rateLimitResult, rateLimiter)
+  }
   
   try {
     const body = await request.json()
@@ -54,6 +86,29 @@ export async function POST(request: NextRequest) {
     }
     
     const baseUrl = `${urlObj.protocol}//${urlObj.host}`
+    const cacheKey = normalizeUrlKey(baseUrl)
+
+    // Check cache first
+    const cache = getExtractionCache<ExtractionResult>()
+    const cachedResult = cache.get(cacheKey)
+
+    if (cachedResult) {
+      // Return cached result with updated processing time
+      const cachedWithTime: ExtractionResult = {
+        ...cachedResult,
+        stats: {
+          ...cachedResult.stats,
+          processingTime: Date.now() - startTime,
+        },
+      }
+      const responseHeaders = addResponseHeaders(
+        {},
+        rateLimitResult,
+        'HIT',
+        cache.getTtlRemaining(cacheKey)
+      )
+      return NextResponse.json(cachedWithTime, { headers: responseHeaders })
+    }
     
     let content: string | null = null
     let sourceUrl: string = ''
@@ -153,8 +208,52 @@ export async function POST(request: NextRequest) {
         processingTime
       }
     }
+
+    // Cache the successful result
+    cache.set(cacheKey, result)
     
-    return NextResponse.json(result)
+    // Check for format parameter
+    const formatParam = request.nextUrl.searchParams.get('format') as ExportFormat | null
+    const acceptHeader = request.headers.get('accept')
+    
+    // Determine output format based on query param, Accept header, or default to JSON
+    let outputFormat: ExportFormat | null = null
+    
+    if (formatParam && ['markdown', 'json', 'yaml'].includes(formatParam)) {
+      outputFormat = formatParam
+    } else if (acceptHeader) {
+      if (acceptHeader.includes('text/markdown')) {
+        outputFormat = 'markdown'
+      } else if (acceptHeader.includes('text/yaml') || acceptHeader.includes('application/yaml')) {
+        outputFormat = 'yaml'
+      }
+    }
+    
+    // If format is specified, return formatted content instead of JSON
+    if (outputFormat) {
+      const formattedContent = exportToFormat(result, outputFormat)
+      const mimeType = getMimeTypeForFormat(outputFormat)
+      const siteName = urlObj.host.replace('www.', '').split('.')[0]
+      const filename = getFilenameForFormat(siteName, outputFormat)
+      
+      return new NextResponse(formattedContent, {
+        status: 200,
+        headers: {
+          'Content-Type': `${mimeType}; charset=utf-8`,
+          'Content-Disposition': `attachment; filename="${filename}"`,
+          ...addResponseHeaders({}, rateLimitResult, 'MISS', cache.getTtlRemaining(cacheKey)),
+        },
+      })
+    }
+    
+    const responseHeaders = addResponseHeaders(
+      {},
+      rateLimitResult,
+      'MISS',
+      cache.getTtlRemaining(cacheKey)
+    )
+    
+    return NextResponse.json(result, { headers: responseHeaders })
     
   } catch (error) {
     console.error('Extraction error:', error)
@@ -178,9 +277,16 @@ export async function GET(request: NextRequest) {
     )
   }
 
-  // Reuse POST logic by creating a new request
-  const postRequest = {
-    json: async () => ({ url }),
-  } as NextRequest
+  // Create a mock request body for POST handler
+  const originalJson = request.json.bind(request)
+  const mockRequest = Object.create(request, {
+    json: {
+      value: async () => ({ url }),
+    },
+    headers: {
+      value: request.headers,
+    },
+  }) as NextRequest
   
-  return POST(postRequest)}
+  return POST(mockRequest)
+}
