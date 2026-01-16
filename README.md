@@ -175,7 +175,7 @@ lyra-discover discover --max-age 24
 
 ---
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Installation
 
