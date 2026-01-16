@@ -1125,16 +1125,26 @@ END OF ${data.siteName.toUpperCase()} DOCUMENTATION
         {status === 'loading' && (
           <div className="flex flex-col items-center justify-center py-32">
             <Loader2 className="w-8 h-8 animate-spin text-blue-500 mb-4" />
-            <p className="text-neutral-400">Extracting documentation from {url}...</p>
+            <p className="text-neutral-400 mb-2">Searching for documentation...</p>
+            <p className="text-neutral-500 text-sm">
+              Scanning {url} and common doc locations (docs.*, /docs, etc.)
+            </p>
+            <p className="text-neutral-600 text-xs mt-4">
+              This may take up to 20 seconds
+            </p>
           </div>
         )}
 
         {/* Error State */}
         {status === 'error' && (
-          <div className="flex flex-col items-center justify-center py-32">
+          <div className="flex flex-col items-center justify-center py-32 max-w-lg mx-auto text-center">
             <AlertCircle className="w-12 h-12 text-red-500 mb-4" />
-            <p className="text-xl font-semibold mb-2">Extraction Failed</p>
-            <p className="text-neutral-400 mb-6">{error}</p>
+            <p className="text-xl font-semibold mb-2">No Documentation Found</p>
+            <p className="text-neutral-400 mb-4">{error}</p>
+            <p className="text-neutral-500 text-sm mb-6">
+              We scanned common documentation locations (docs.*, /docs, developers.*, etc.) 
+              but couldn&apos;t find an llms.txt file. The site may not support the llms.txt standard yet.
+            </p>
             <button
               onClick={() => router.push('/')}
               className="px-6 py-3 bg-white text-black rounded-lg font-medium hover:bg-neutral-200 transition-colors"
