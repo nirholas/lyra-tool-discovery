@@ -221,3 +221,12 @@ export * from './types.js';
 export { AIAnalyzer } from './ai.js';
 export { GitHubSource } from './sources/github.js';
 export { NpmSource } from './sources/npm.js';
+
+// Export error classes
+export * from './errors.js';
+
+// Export schemas for validation
+export * from './schemas.js';
+
+// Export utilities
+export { withRetry, fetchWithRetry, sleep, calculateBackoff } from './utils/retry.js';

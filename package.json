@@ -1,20 +1,40 @@
 {
-  "name": "lyra-tool-discovery",
+  "name": "@nirholas/lyra-tool-discovery",
   "version": "0.1.0",
-  "private": true,
   "description": "AI-powered MCP tool discovery - find, analyze, and generate plugin configs for Model Context Protocol servers",
   "type": "module",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./cli": {
+      "import": "./dist/cli.js",
+      "types": "./dist/cli.d.ts"
+    }
+  },
   "bin": {
     "lyra-discover": "./dist/cli.js"
   },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md"
+  ],
   "scripts": {
     "build": "tsup",
     "dev": "tsx src/cli.ts",
     "discover": "tsx src/cli.ts discover",
     "discover:dry": "tsx src/cli.ts discover --dry-run",
     "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "prepublishOnly": "pnpm run build && pnpm run test",
     "example:basic": "tsx examples/basic-discovery.ts",
     "example:repo": "tsx examples/analyze-single-repo.ts",
     "example:npm": "tsx examples/analyze-npm-package.ts",
@@ -31,7 +51,28 @@
     "dashboard:build": "pnpm --dir dashboard build",
     "dashboard:start": "pnpm --dir dashboard start"
   },
-  "author": "nirholas",
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "ai",
+    "tool-discovery",
+    "plugin",
+    "crypto",
+    "defi",
+    "blockchain",
+    "web3",
+    "ethereum",
+    "openai",
+    "anthropic",
+    "claude",
+    "gpt",
+    "speraxos",
+    "plugin-delivery"
+  ],
+  "author": {
+    "name": "nirholas",
+    "url": "https://github.com/nirholas"
+  },
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -44,16 +85,36 @@
   "engines": {
     "node": ">=18.0.0"
   },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.52.0",
     "commander": "^13.0.0",
-    "jszip": "^3.10.1",
-    "openai": "^4.77.0"
+    "debug": "^4.3.4",
+    "openai": "^4.77.0",
+    "zod": "^3.22.4"
   },
   "devDependencies": {
+    "@types/debug": "^4.1.12",
     "@types/node": "^22.10.5",
+    "@vitest/coverage-v8": "^2.1.8",
     "tsup": "^8.3.5",
     "tsx": "^4.19.2",
-    "typescript": "^5.7.3"
+    "typescript": "^5.7.3",
+    "vitest": "^2.1.8"
+  },
+  "peerDependencies": {
+    "@anthropic-ai/sdk": ">=0.50.0",
+    "openai": ">=4.0.0"
+  },
+  "peerDependenciesMeta": {
+    "@anthropic-ai/sdk": {
+      "optional": true
+    },
+    "openai": {
+      "optional": true
+    }
   }
 }
