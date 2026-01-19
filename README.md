@@ -9,7 +9,7 @@
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 [![AI Powered](https://img.shields.io/badge/AI-OpenAI%20%7C%20Anthropic-blueviolet?style=flat-square)](https://openai.com)
 
-[Documentation](https://lyra-tool-discovery.vercel.app) · [CLI Reference](#-cli-reference) · [Examples](#-examples) · [Contributing](#-contributing)
+[Documentation](https://github.com/nirholas/lyra-tool-discovery/tree/main/docs) · [CLI Reference](#-cli-reference) · [Examples](#-examples) · [Contributing](#-contributing)
 
 </div>
 
