@@ -1,1 +1,9 @@
-{"$schema":"https://registry.modelcontextprotocol.io/schema/server.json","name":"tool-discovery-mcp","title":"AI Tool Discovery Agent","description":"AI agent discovers MCP servers from GitHub npm - analyzes APIs generates configs","repository":"https://github.com/nirholas/lyra-tool-discovery","keywords":["ai","agent","discovery","mcp"],"packages":[{"registry_name":"source","identifier":"https://github.com/nirholas/lyra-tool-discovery"}]}
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.nirholas/tool-discovery-mcp",
+  "title": "AI Tool Discovery Agent",
+  "description": "AI agent discovers MCP servers from GitHub npm - analyzes APIs configs",
+  "keywords": ["ai", "agent", "discovery", "mcp", "github", "npm", "automation"],
+  "repository": {"url": "https://github.com/nirholas/lyra-tool-discovery", "source": "github"},
+  "packages": [{"registryType": "source", "identifier": "https://github.com/nirholas/lyra-tool-discovery"}]
+}
