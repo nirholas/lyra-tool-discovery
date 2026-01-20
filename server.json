@@ -4,6 +4,5 @@
   "title": "AI Tool Discovery Agent",
   "description": "AI agent discovers MCP servers from GitHub npm - analyzes APIs configs",
   "keywords": ["ai", "agent", "discovery", "mcp", "github", "npm", "automation"],
-  "repository": {"url": "https://github.com/nirholas/lyra-tool-discovery", "source": "github"},
-  "packages": [{"registryType": "source", "identifier": "https://github.com/nirholas/lyra-tool-discovery", "transport": {"type": "stdio"}}]
+  "repository": {"url": "https://github.com/nirholas/lyra-tool-discovery", "source": "github"}
 }
