@@ -1,9 +1,24 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "io.github.nirholas/tool-discovery-mcp",
-  "version": "1.0.0",
-  "title": "AI Tool Discovery Agent",
-  "description": "AI agent discovers MCP servers from GitHub npm - analyzes APIs configs",
-  "keywords": ["ai", "agent", "discovery", "mcp", "github", "npm", "automation"],
-  "repository": {"url": "https://github.com/nirholas/lyra-tool-discovery", "source": "github"}
+  "title": "Lyra Tool Discovery",
+  "description": "AI agent discovers MCP servers from GitHub and npm - analyzes APIs and configs automatically",
+  "repository": {
+    "url": "https://github.com/nirholas/lyra-tool-discovery",
+    "source": "github"
+  },
+  "version": "0.1.0",
+  "icons": {
+    "light": "https://raw.githubusercontent.com/nirholas/g1t/d9a0ee206b8136472c04384905999369f198b3c9/milady.svg",
+    "dark": "https://raw.githubusercontent.com/nirholas/g1t/d9a0ee206b8136472c04384905999369f198b3c9/bg.svg"
+  },
+  "packages": {
+    "npm": "@nirholas/lyra-tool-discovery"
+  },
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "keywords": ["tool-discovery", "mcp", "github", "npm", "api", "automation", "ai", "agent"],
+      "category": "Developer Tools"
+    }
+  }
 }
