@@ -1,7 +1,7 @@
 <div align="center"> 
 
 # 🔮 Lyra Tool Discovery
-
+ 
 **AI-powered tool discovery for the MCP ecosystem**
 
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.7-blue?style=flat-square&logo=typescript)](https://www.typescriptlang.org/)
