@@ -14,7 +14,7 @@
 </div>
 
 ---
-
+ 
 ## 📖 Overview
 
 **Lyra Tool Discovery** is an AI-powered automation tool designed specifically for the **crypto, DeFi, blockchain, and web3 ecosystem**. It solves the painful problem of manually discovering, evaluating, and integrating MCP (Model Context Protocol) servers into your crypto-focused applications. Instead of spending hours searching GitHub, reading READMEs, and figuring out the right integration approach, Lyra does it for you in seconds.
