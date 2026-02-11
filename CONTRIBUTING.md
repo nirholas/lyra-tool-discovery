@@ -378,3 +378,7 @@ Improve DX:
 Feel free to open an issue with the `question` label or reach out to the maintainers.
 
 Thank you for contributing! 🙏
+
+## Code of Conduct
+
+Please read and follow our [Code of Conduct](CODE_OF_CONDUCT.md).

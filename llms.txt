@@ -1,0 +1,9 @@
+# lyra-tool-discovery
+
+> AI powered automation toolkit which acts as an agent that discovers MCP servers for you. Point it at GitHub/npm/configure your own discovery, let GPT or Claude analyze the API or MCP or any tool, get ready-to-ship plugin configs. Zero manual work.
+
+## Links
+
+- Repository: https://github.com/nirholas/lyra-tool-discovery
+- Author: https://github.com/nirholas
+- Full documentation: https://raw.githubusercontent.com/nirholas/lyra-tool-discovery/main/llms-full.txt
