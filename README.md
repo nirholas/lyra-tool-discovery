@@ -1,5 +1,5 @@
 <div align="center"> 
-
+ 
 # 🔮 Lyra Tool Discovery 
  
 **AI-powered tool discovery for the MCP ecosystem**
