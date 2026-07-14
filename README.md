@@ -5,7 +5,6 @@
 **AI-powered tool discovery for the MCP ecosystem**
 
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.7-blue?style=flat-square&logo=typescript)](https://www.typescriptlang.org/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](https://opensource.org/licenses/MIT)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 [![AI Powered](https://img.shields.io/badge/AI-OpenAI%20%7C%20Anthropic-blueviolet?style=flat-square)](https://openai.com)
 
@@ -1006,7 +1005,6 @@ SOFTWARE.
 <div align="center">
 
 **[⬆ Back to Top](#-lyra-tool-discovery)**
-
 
 </div>
 
