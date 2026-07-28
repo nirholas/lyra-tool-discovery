@@ -9,3 +9,6 @@ coverage/
 # Discovery data (keep .gitkeep)
 data/*
 !data/.gitkeep
+
+# Next.js build output
+.next/
