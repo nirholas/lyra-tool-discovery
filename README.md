@@ -1008,3 +1008,10 @@ SOFTWARE.
 
 </div>
 
+
+## Documentation
+
+Full documentation site: **https://nirholas.github.io/lyra-tool-discovery/**
+
+- [Getting started](docs/getting-started.md) covers install and first run.
+- [Examples](docs/examples.md) has copy-paste snippets.
