@@ -125,14 +125,10 @@ export class NpmSource {
         
         // If it has a bin, it's likely a CLI tool (STDIO MCP)
         if (fullPkg.bin) {
-          const binName = typeof fullPkg.bin === 'string' 
-            ? fullPkg.name 
-            : Object.keys(fullPkg.bin)[0];
-          
           tool.mcpConfig = {
             type: 'stdio',
             command: 'npx',
-            args: ['-y', fullPkg.name],
+            args: ['-y', pkg.name],
             env: {}
           };
         }
@@ -153,15 +149,24 @@ export class NpmSource {
     
     const data = await response.json();
     
-    // Get latest version
+    // Get latest version, falling back to top-level packument metadata
+    // for fields the version manifest may omit (license, author, etc.)
     const latest = data['dist-tags']?.latest;
     if (latest && data.versions?.[latest]) {
+      const manifest = data.versions[latest];
       return {
-        ...data.versions[latest],
-        readme: data.readme
+        name: data.name,
+        description: data.description,
+        license: data.license,
+        author: data.author,
+        homepage: data.homepage,
+        repository: data.repository,
+        keywords: data.keywords,
+        ...manifest,
+        readme: manifest.readme ?? data.readme
       };
     }
-    
+
     return data;
   }
   

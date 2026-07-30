@@ -129,8 +129,27 @@ describe('GitHubSource', () => {
     });
   });
 
-  describe('analyzeRepo', () => {
+  describe('getRepo', () => {
+    const repoMetadata = {
+      id: 123,
+      full_name: 'owner/repo',
+      name: 'repo',
+      description: 'Test repo',
+      html_url: 'https://github.com/owner/repo',
+      homepage: null,
+      license: { spdx_id: 'MIT' },
+      owner: { login: 'owner' },
+      stargazers_count: 10,
+      topics: [],
+    };
+
     it('should fetch README and package.json', async () => {
+      // Mock repo metadata fetch
+      mockFetch.mockResolvedValueOnce({
+        ok: true,
+        json: async () => repoMetadata,
+      });
+
       // Mock README fetch
       mockFetch.mockResolvedValueOnce({
         ok: true,
@@ -152,7 +171,7 @@ describe('GitHubSource', () => {
         }),
       });
 
-      const result = await github.analyzeRepo('owner', 'repo');
+      const result = await github.getRepo('owner', 'repo');
 
       expect(result).toBeDefined();
       expect(result?.readme).toContain('Test Repo');
@@ -160,15 +179,32 @@ describe('GitHubSource', () => {
     });
 
     it('should handle missing README', async () => {
+      // Repo metadata resolves, README and package.json are 404
+      mockFetch.mockResolvedValueOnce({
+        ok: true,
+        json: async () => repoMetadata,
+      });
+      mockFetch.mockResolvedValue({
+        ok: false,
+        status: 404,
+      });
+
+      const result = await github.getRepo('owner', 'repo');
+
+      // Should return a partial result without a readme
+      expect(result).toBeDefined();
+      expect(result?.readme).toBeUndefined();
+    });
+
+    it('should return null for a missing repo', async () => {
       mockFetch.mockResolvedValueOnce({
         ok: false,
         status: 404,
       });
 
-      const result = await github.analyzeRepo('owner', 'repo');
+      const result = await github.getRepo('owner', 'repo');
 
-      // Should return null or partial result
-      expect(result === null || result?.readme === undefined).toBe(true);
+      expect(result).toBeNull();
     });
   });
 });
