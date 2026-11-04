@@ -1011,7 +1011,7 @@ SOFTWARE.
 
 ## Documentation
 
-Full documentation site: **https://nirholas.github.io/lyra-tool-discovery/**
+Full documentation site: **https://lyra-tool-discovery.modelcontextprotocol.name/**
 
 - [Getting started](docs/getting-started.md) covers install and first run.
 - [Examples](docs/examples.md) has copy-paste snippets.
