@@ -1,0 +1,1 @@
+{"name":"lyra-tool-discovery","version":"0.1.3","description":"Find MCP servers on GitHub and npm and draft plugin configs for them with the lyra-discover CLI.","author":{"name":"nirholas"},"repository":"https://github.com/nirholas/lyra-tool-discovery","homepage":"https://lyra-tool-discovery.modelcontextprotocol.name","keywords":["mcp","discovery","cli","plugin-config"]}
