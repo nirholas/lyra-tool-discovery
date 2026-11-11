@@ -36,5 +36,11 @@
   },
   "engines": {
     "node": ">=18.0.0"
+  },
+  "overrides": {
+    "hono": "4.13.14",
+    "@hono/node-server": "2.1.5",
+    "express-rate-limit": "8.7.1",
+    "ip-address": "10.7.5"
   }
 }
